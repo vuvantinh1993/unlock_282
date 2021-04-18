@@ -1,0 +1,16 @@
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\unlock_282.exe.config
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\unlock_282.exe
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\unlock_282.pdb
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.csprojAssemblyReference.cache
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.Form1.resources
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.Properties.Resources.resources
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.csproj.GenerateResource.cache
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.csproj.CoreCompileInputs.cache
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.exe
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.pdb
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\Newtonsoft.Json.dll
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\Newtonsoft.Json.xml
+C:\Users\TINHVU\source\repos\unlock_282\obj\Debug\unlock_282.csproj.CopyComplete
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\Otp.NET.dll
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\WebDriver.dll
+C:\Users\TINHVU\source\repos\unlock_282\bin\Debug\WebDriver.xml
