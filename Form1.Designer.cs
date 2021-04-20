@@ -42,6 +42,7 @@ namespace unlock_282
             this.nbrLuong = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.cbStop = new System.Windows.Forms.CheckBox();
+            this.ClearAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +62,7 @@ namespace unlock_282
             this.dgvAccounts.Name = "dgvAccounts";
             this.dgvAccounts.Size = new System.Drawing.Size(970, 477);
             this.dgvAccounts.TabIndex = 0;
+            this.dgvAccounts.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvAccounts_MouseClick);
             // 
             // stt
             // 
@@ -118,7 +120,7 @@ namespace unlock_282
             // 
             // Loaddata
             // 
-            this.Loaddata.Location = new System.Drawing.Point(702, 13);
+            this.Loaddata.Location = new System.Drawing.Point(702, 3);
             this.Loaddata.Name = "Loaddata";
             this.Loaddata.Size = new System.Drawing.Size(75, 23);
             this.Loaddata.TabIndex = 2;
@@ -162,11 +164,22 @@ namespace unlock_282
             this.cbStop.Text = "Stop";
             this.cbStop.UseVisualStyleBackColor = true;
             // 
+            // ClearAll
+            // 
+            this.ClearAll.Location = new System.Drawing.Point(702, 32);
+            this.ClearAll.Name = "ClearAll";
+            this.ClearAll.Size = new System.Drawing.Size(75, 23);
+            this.ClearAll.TabIndex = 6;
+            this.ClearAll.Text = "Xoá hết";
+            this.ClearAll.UseVisualStyleBackColor = true;
+            this.ClearAll.Click += new System.EventHandler(this.ClearAll_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 540);
+            this.Controls.Add(this.ClearAll);
             this.Controls.Add(this.cbStop);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nbrLuong);
@@ -197,6 +210,7 @@ namespace unlock_282
         private System.Windows.Forms.NumericUpDown nbrLuong;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbStop;
+        private System.Windows.Forms.Button ClearAll;
     }
 }
 

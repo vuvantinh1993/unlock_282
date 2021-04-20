@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenQA.Selenium.Support.UI;
 
 namespace unlock_282
 {
@@ -31,7 +32,7 @@ namespace unlock_282
             try
             {
                 dgvAccounts["status", rowIndex].Value = "Đăng nhập Fb bằng Uid và Pass";
-                DangNhapVoiUidVaPass(dgvAccounts.Rows[rowIndex].Cells["id"].Value.ToString(), dgvAccounts.Rows[rowIndex].Cells["pass"].Value.ToString());
+                DangNhapVoiUidVaPass(dgvAccounts.Rows[rowIndex].Cells["uid"].Value.ToString(), dgvAccounts.Rows[rowIndex].Cells["pass"].Value.ToString());
             }
             catch (Exception e)
             {
@@ -49,10 +50,57 @@ namespace unlock_282
             throw new Exception();
         }
 
-        public bool GoCheckPoint282()
+        public async Task<bool> GoCheckPoint282Async()
         {
-            chromeDriver.FindElement(By.Name("action_proceed")).Click();
+            Thread.Sleep(500);
+            try
+            {
+                chromeDriver.FindElement(By.Name("action_proceed")).Click();
+                Thread.Sleep(3000);
+            }
+            catch (Exception)
+            {
+            }
 
+            var selectElement = chromeDriver.FindElement(By.Name("country_code"));
+            var selectObject = new SelectElement(selectElement);
+            selectObject.SelectByValue("VN");
+
+            var otpsim = new OtpSim();
+            var sdt = await otpsim.GetPhone();
+
+            chromeDriver.FindElement(By.Name("contact_point")).SendKeys(sdt.ToString());
+            chromeDriver.FindElement(By.Name("action_set_contact_point")).Click();
+
+            var otp = await otpsim.GetCode();
+
+            chromeDriver.FindElement(By.Name("code")).SendKeys(otp);
+            chromeDriver.FindElement(By.XPath("//button[@name='action_submit_code']")).Click();
+            Thread.Sleep(1000);
+
+            while (!chromeDriver.PageSource.Contains("mobile_image_data"))
+            {
+                Thread.Sleep(1000);
+            }
+            Thread.Sleep(1000);
+            var linkanh = Common.GetOneImage();
+            chromeDriver.FindElement(By.Id("mobile_image_data")).SendKeys(linkanh);
+            Thread.Sleep(500);
+            chromeDriver.FindElement(By.Name("action_upload_image")).Click();
+            Thread.Sleep(1000);
+
+            var m = 0;
+            while (!chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn") && m < 10)
+            {
+                Thread.Sleep(1000);
+                m++;
+            }
+            if(m >= 9)
+            {
+                dgvAccounts["status", rowIndex].Value = "Up CMT";
+                return false;
+            }
+            dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
             return true;
         }
 
@@ -79,10 +127,10 @@ namespace unlock_282
                 {
                     chromeDriver.FindElement(By.XPath("//a[contains(@href,'login')]")).Click();
                 }
-                var _2fa = dgvAccounts["Fa", rowIndex].Value.ToString().Replace(" ", "");
+                var _2fa = dgvAccounts["_2fa", rowIndex].Value.ToString().Replace(" ", "");
                 if (_2fa != "")
                 {
-                    Thread.Sleep(1500);
+                    Thread.Sleep(3000);
                     var code = _2Fa.Lay2FaFB(_2fa);
                     dgvAccounts["status", rowIndex].Value = $"Nhập mã 2Fa là {code}";
                     chromeDriver.FindElement(By.Name("approvals_code")).SendKeys(code);
