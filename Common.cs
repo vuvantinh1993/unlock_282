@@ -12,10 +12,16 @@ namespace unlock_282
     public  static class Common
     {
         public static string link_account = "nick.txt";
+        public static string link_image = "";
 
         public static void GhiFileTaiKhoan(List<ModelAccount> listAccs)
         {
             File.WriteAllText(link_account, JsonConvert.SerializeObject(listAccs));
+        }
+
+        public static void XoaHetAccount()
+        {
+            File.WriteAllText(link_account, "");
         }
 
         public static BindingList<ModelAccount> DocFileTaiKhoan()
@@ -42,6 +48,14 @@ namespace unlock_282
                 }
             }
             Common.GhiFileTaiKhoan(listAccsnew);
+        }
+
+
+        public static string GetOneImage()
+        {
+            var currentPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            string[] filePaths = Directory.GetFiles($"{currentPath}image");
+            return filePaths[new Random().Next(0, filePaths.Count())];
         }
     }
 }
