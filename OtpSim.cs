@@ -11,7 +11,7 @@ namespace unlock_282
 {
    public class OtpSim
    {
-        private string key = "4efce2d92c776bf3e0e57ee0347de7aa";
+        private string key = "1c7f3fb08f4262206a84897707722d82";
         private HttpClient _httpClient;
         private string _session = "";
         public OtpSim()
@@ -24,7 +24,7 @@ namespace unlock_282
         {
             try
             {
-                var http = await _httpClient.GetAsync($"phones/request?token={key}&service=7&network=1,3");
+                var http = await _httpClient.GetAsync($"phones/request?token={key}&service=7");
                 var ress = http.Content.ReadAsStringAsync();
                 var rs = JsonConvert.DeserializeObject<ModelGetPhone>(ress.Result.ToString());
                 if(rs.status_code == "200")

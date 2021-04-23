@@ -43,10 +43,10 @@ namespace unlock_282
             Thread.Sleep(1000);
             if (chromeDriver.Url.Contains("1501092823525282"))
             {
-                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint, hãy kiểm tra lại";
+                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint 282";
                 return true;
             }
-            dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
+            dgvAccounts["status", rowIndex].Value = "Không phải checkpoint 282";
             throw new Exception();
         }
 
@@ -62,25 +62,58 @@ namespace unlock_282
             {
             }
 
-            var selectElement = chromeDriver.FindElement(By.Name("country_code"));
-            var selectObject = new SelectElement(selectElement);
-            selectObject.SelectByValue("VN");
+            try
+            {
+                var selectElement = chromeDriver.FindElement(By.Name("country_code"));
+                var selectObject = new SelectElement(selectElement);
+                selectObject.SelectByValue("VN");
+            }
+            catch (Exception)
+            {
+                dgvAccounts["status", rowIndex].Value = "Có captcha";
+                throw new Exception();
+            }
 
-            var otpsim = new OtpSim();
+            var otpsim = new Chothuesimcode();
+
+            dgvAccounts["status", rowIndex].Value = "Lấy 1 số điện thoại";
             var sdt = await otpsim.GetPhone();
 
             chromeDriver.FindElement(By.Name("contact_point")).SendKeys(sdt.ToString());
             chromeDriver.FindElement(By.Name("action_set_contact_point")).Click();
 
-            var otp = await otpsim.GetCode();
+            var otp = "";
+            try
+            {
+                var i = 0;
+                while (i <= 8)
+                {
+                    Thread.Sleep(5000);
+                    dgvAccounts["status", rowIndex].Value = "Đang lấy mã OTP sim";
+                    otp = await otpsim.GetCode();
+                    if (otp != "")
+                        break;
+                    dgvAccounts["status", rowIndex].Value = "Yêu cầu lại mã mới";
+                    chromeDriver.FindElement(By.Id("action_resend_code")).Click();
+                    i++;
+                }
+            }
+            catch (Exception e5)
+            {
+                dgvAccounts["status", rowIndex].Value = "Không về code";
+                throw new Exception();
+            }
 
+            dgvAccounts["status", rowIndex].Value = $"Mã otp sim {otp}";
             chromeDriver.FindElement(By.Name("code")).SendKeys(otp);
             chromeDriver.FindElement(By.XPath("//button[@name='action_submit_code']")).Click();
             Thread.Sleep(1000);
 
-            while (!chromeDriver.PageSource.Contains("mobile_image_data"))
+            var d = 0;
+            while (!chromeDriver.PageSource.Contains("mobile_image_data") || d > 12)
             {
                 Thread.Sleep(1000);
+                d++;
             }
             Thread.Sleep(1000);
             var linkanh = Common.GetOneImage();

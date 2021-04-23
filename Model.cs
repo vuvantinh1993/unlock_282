@@ -18,5 +18,6 @@ namespace unlock_282
         public string _2fa { get; set; }
         public string proxy { get; set; }
         public string note { get; set; }
+        public string status { get; set; }
     }
 }
