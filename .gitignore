@@ -1,3 +1,7 @@
+bin
+obj
+.vs
+
 bin/
 bin
 bin/Debug/chromedriver.exe
@@ -19,3 +23,8 @@ bin/Debug/nick.txt
 bin/Debug/unlock_282.exe
 bin/Debug/unlock_282.pdb
 obj/Debug/unlock_282.exe
+.vs/unlock_282/v16/.suo
+obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+obj/Debug/unlock_282.csprojAssemblyReference.cache
+obj/Debug/unlock_282.exe
+obj/Debug/unlock_282.pdb

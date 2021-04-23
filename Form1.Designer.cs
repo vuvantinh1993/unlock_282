@@ -43,6 +43,7 @@ namespace unlock_282
             this.label1 = new System.Windows.Forms.Label();
             this.cbStop = new System.Windows.Forms.CheckBox();
             this.ClearAll = new System.Windows.Forms.Button();
+            this.opennow = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             this.SuspendLayout();
@@ -113,7 +114,7 @@ namespace unlock_282
             // 
             // run
             // 
-            this.run.Location = new System.Drawing.Point(836, 12);
+            this.run.Location = new System.Drawing.Point(803, 8);
             this.run.Name = "run";
             this.run.Size = new System.Drawing.Size(141, 41);
             this.run.TabIndex = 1;
@@ -177,11 +178,22 @@ namespace unlock_282
             this.ClearAll.UseVisualStyleBackColor = true;
             this.ClearAll.Click += new System.EventHandler(this.ClearAll_Click);
             // 
+            // opennow
+            // 
+            this.opennow.Location = new System.Drawing.Point(526, 8);
+            this.opennow.Name = "opennow";
+            this.opennow.Size = new System.Drawing.Size(140, 37);
+            this.opennow.TabIndex = 7;
+            this.opennow.Text = "Mở 2";
+            this.opennow.UseVisualStyleBackColor = true;
+            this.opennow.Click += new System.EventHandler(this.opennow_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 540);
+            this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
             this.Controls.Add(this.cbStop);
             this.Controls.Add(this.label1);
@@ -215,6 +227,7 @@ namespace unlock_282
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbStop;
         private System.Windows.Forms.Button ClearAll;
+        private System.Windows.Forms.Button opennow;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenQA.Selenium.Support.UI;
 
 namespace unlock_282
 {
@@ -52,6 +52,13 @@ namespace unlock_282
 
         public async Task<bool> GoCheckPoint282Async()
         {
+            // cần check lại có capcha hay ko ở đây
+            chromeDriver.Url = "https://www.facebook.com/";
+            Thread.Sleep(1000);
+            chromeDriver.FindElement(By.XPath("//span[text()='Yêu cầu xem xét lại']")).Click();
+            // đoạn này đợi gải captcha
+            chromeDriver.Url = "https://m.facebook.com/login.php";
+
             Thread.Sleep(500);
             try
             {
@@ -142,6 +149,8 @@ namespace unlock_282
         {
             try
             {
+                chromeDriver.Url = "https://m.facebook.com/login";
+                chromeDriver.Manage().Cookies.DeleteAllCookies();
                 chromeDriver.Url = "https://m.facebook.com/login";
                 try
                 {

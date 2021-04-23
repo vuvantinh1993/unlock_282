@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,7 +60,7 @@ namespace unlock_282
 
                                     try
                                     {
-                                        dgvAccounts["status", row].Value = "Khở tạo Chrome";
+                                        dgvAccounts["status", row].Value = "Khởi tạo Chrome";
                                         TaoChrome(j);
                                         var facebook = new FaceBook(dgvAccounts, j, chromeDrivers[j]);
                                         dgvAccounts["status", row].Value = "Đăng Nhập Facebook";
@@ -180,7 +181,7 @@ namespace unlock_282
                 chromeOptions.AddArguments(new string[]
                 {
                     "--disable-blink-features=AutomationControlled",
-                    "--user-agent=Mozilla/5.0 (Linux; Android 11; LM-Q720) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36",
+                    "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
                     "--disable-notifications",
                     "--disable-popup-blocking",
                     "--disable-geolocation",
@@ -190,6 +191,10 @@ namespace unlock_282
                 });
                 try
                 {
+                    string linkFolderProfile = $"{Directory.GetCurrentDirectory()}\\profileAuto";
+                    var name = rowIndex % 4;
+                    chromeOptions.AddArguments("user-data-dir=" + $"{linkFolderProfile}" + "\\" + name);
+
                     chromeDrivers[rowIndex] = new ChromeDriver(chromeDriverService, chromeOptions, TimeSpan.FromMinutes(3));
                     chromeDrivers[rowIndex].Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(30));
                     chromeDrivers[rowIndex].Manage().Window.Size = new Size(300, 300);
@@ -381,6 +386,102 @@ namespace unlock_282
             var listAccTds = (BindingList<ModelAccount>)dgvAccounts.DataSource;
             Common.LuuThongTinTaiKhoanKhiKetThuc(listAccTds);
         }
+
+        private void opennow_Click(object sender, EventArgs e)
+        {
+            TaoFireFox(1);
+        }
+
+        public bool SetUpfirefox(int rowIndex, ChromeDriverService chromeDriverService, ChromeOptions chromeOptions)
+        {
+
+            chromeDriverService.SuppressInitialDiagnosticInformation = true;
+            chromeDriverService.HideCommandPromptWindow = true;
+            try
+            {
+                chromeOptions.AddArguments(new string[]
+                {
+                    "--disable-blink-features=AutomationControlled",
+                    "--user-agent=Mozilla/5.0 (Linux; Android 11; LM-Q720) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36",
+                    "--disable-notifications",
+                    "--disable-popup-blocking",
+                    "--disable-geolocation",
+                    "--no-sandbox",
+                    "--disable-gpu",
+                    "--app=https:/m.facebook.com"
+                });
+                try
+                {
+                    chromeDrivers[rowIndex] = new ChromeDriver(chromeDriverService, chromeOptions, TimeSpan.FromMinutes(3));
+                    chromeDrivers[rowIndex].Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(30));
+                    chromeDrivers[rowIndex].Manage().Window.Size = new Size(300, 300);
+                }
+                catch (Exception e)
+                {
+                    dgvAccounts.Rows[rowIndex].Cells["status"].Value = "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi";
+                    dgvAccounts.Rows[rowIndex].Cells["Action"].Value = "Bắt đầu";
+                    return false;
+                }
+                chromeDrivers[rowIndex].Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                chromeDrivers[rowIndex].Manage().Window.Position = GetPositionChrome(rowIndex);
+                return true;
+            }
+            catch (Exception e)
+            {
+            }
+            return false;
+        }
+
+        private void TaoFireFox(int rowIndex)
+        {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            FirefoxProfile profile = new FirefoxProfile();
+            profile.AddExtension("extension_2_0_0_0.crx");
+            profile.SetPreference("extensions.firebug.currentVersion", "1.8.1");
+            IWebDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
+
+
+            //ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+            //ChromeOptions chromeOptions = new ChromeOptions { };
+
+
+            //var proxsplit = dgvAccounts["proxy", rowIndex].Value.ToString().Split(':');
+            //var ip = $"{proxsplit[0]}:{proxsplit[1]}";
+            //var username = proxsplit[2];
+            //var pass = proxsplit[3];
+            //chromeOptions.AddExtension("extension_2_0_0_0.crx");
+            //chromeOptions.AddArgument(string.Format("--proxy-server={0}", ip));
+
+            //SetUpChrome(rowIndex, chromeDriverService, chromeOptions);
+
+            //if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(username))
+            //{
+            //    chromeDrivers[rowIndex].Url = "chrome-extension://ggmdpepbjljkkkdaklfihhngmmgmpggp/options.html";
+            //    chromeDrivers[rowIndex].Navigate();
+            //    chromeDrivers[rowIndex].FindElement(By.Id("login")).Clear();
+            //    chromeDrivers[rowIndex].FindElement(By.Id("login")).SendKeys(username);
+            //    chromeDrivers[rowIndex].FindElement(By.Id("password")).Clear();
+            //    chromeDrivers[rowIndex].FindElement(By.Id("password")).SendKeys(pass);
+            //    chromeDrivers[rowIndex].FindElement(By.Id("retry")).Clear();
+            //    chromeDrivers[rowIndex].FindElement(By.Id("retry")).SendKeys("2");
+            //    chromeDrivers[rowIndex].FindElement(By.Id("save")).Click();
+            //}
+            //string originalWindow = chromeDrivers[rowIndex].CurrentWindowHandle;
+            //foreach (string window in chromeDrivers[rowIndex].WindowHandles)
+            //{
+            //    if (originalWindow != window)
+            //    {
+            //        chromeDrivers[rowIndex].SwitchTo().Window(window);
+            //        chromeDrivers[rowIndex].Close();
+            //        break;
+            //    }
+            //}
+            //chromeDrivers[rowIndex].SwitchTo().Window(originalWindow);
+            //chromeDrivers[rowIndex].Navigate().Refresh();
+            //Thread.Sleep(1000);
+
+        }
+
 
     }
 }
