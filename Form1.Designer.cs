@@ -49,6 +49,8 @@ namespace unlock_282
             // 
             // dgvAccounts
             // 
+            this.dgvAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAccounts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.stt,
@@ -62,6 +64,7 @@ namespace unlock_282
             this.dgvAccounts.Name = "dgvAccounts";
             this.dgvAccounts.Size = new System.Drawing.Size(970, 477);
             this.dgvAccounts.TabIndex = 0;
+            this.dgvAccounts.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvAccounts_RowPrePaint);
             this.dgvAccounts.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvAccounts_MouseClick);
             // 
             // stt
@@ -188,6 +191,7 @@ namespace unlock_282
             this.Controls.Add(this.dgvAccounts);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).EndInit();
             this.ResumeLayout(false);

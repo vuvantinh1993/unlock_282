@@ -67,6 +67,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model.cs" />
+    <Compile Include="Chothuesimcode.cs" />
+    <Compile Include="ObcProxy.cs" />
     <Compile Include="OtpSim.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

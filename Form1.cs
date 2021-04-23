@@ -24,6 +24,7 @@ namespace unlock_282
         {
             InitializeComponent();
             dgvAccounts.AutoGenerateColumns = false;
+            this.MaximumSize = new System.Drawing.Size(1005, Screen.PrimaryScreen.WorkingArea.Height);
             this.dgvAccounts.DataSource = Common.DocFileTaiKhoan();
         }
 
@@ -58,18 +59,26 @@ namespace unlock_282
 
                                     try
                                     {
+                                        dgvAccounts["status", row].Value = "Khở tạo Chrome";
                                         TaoChrome(j);
                                         var facebook = new FaceBook(dgvAccounts, j, chromeDrivers[j]);
-                                       facebook.DangNhap();
+                                        dgvAccounts["status", row].Value = "Đăng Nhập Facebook";
+                                        facebook.DangNhap();
 
                                         await facebook.GoCheckPoint282Async();
 
-                                        chromeDrivers[j].Quit();
+                                        throw new Exception();
 
                                     }
                                     catch (Exception e2)
                                     {
-
+                                        try
+                                        {
+                                            chromeDrivers[j].Quit();
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
                                         Interlocked.Decrement(ref iThread);
                                         return;
                                     }
@@ -123,6 +132,7 @@ namespace unlock_282
             ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
             ChromeOptions chromeOptions = new ChromeOptions { };
 
+
             var proxsplit = dgvAccounts["proxy", rowIndex].Value.ToString().Split(':');
             var ip = $"{proxsplit[0]}:{proxsplit[1]}";
             var  username = proxsplit[2];
@@ -170,18 +180,19 @@ namespace unlock_282
                 chromeOptions.AddArguments(new string[]
                 {
                     "--disable-blink-features=AutomationControlled",
-                    "--user-agent=Mozilla/5.0 (Linux; Android 10; SM-G970F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3396.81 Mobile Safari/537.36",
+                    "--user-agent=Mozilla/5.0 (Linux; Android 11; LM-Q720) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36",
                     "--disable-notifications",
                     "--disable-popup-blocking",
                     "--disable-geolocation",
                     "--no-sandbox",
-                    "--disable-gpu"
+                    "--disable-gpu",
+                    "--app=https:/m.facebook.com"
                 });
                 try
                 {
                     chromeDrivers[rowIndex] = new ChromeDriver(chromeDriverService, chromeOptions, TimeSpan.FromMinutes(3));
                     chromeDrivers[rowIndex].Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(30));
-                    chromeDrivers[rowIndex].Manage().Window.Size = new Size(500, 500);
+                    chromeDrivers[rowIndex].Manage().Window.Size = new Size(300, 300);
                 }
                 catch (Exception e)
                 {
@@ -203,18 +214,18 @@ namespace unlock_282
         {
             try
             {
-                var with = Screen.PrimaryScreen.Bounds.Width - 500;
-                var height = Screen.PrimaryScreen.Bounds.Height - 500;
-                var kcNgang = with / 8;
-                var kcRong = with / 8;
-                var x = rowIndex / 9;
-                var y = rowIndex % 9;
+                var with = Screen.PrimaryScreen.Bounds.Width - 200;
+                var height = Screen.PrimaryScreen.Bounds.Height - 200;
+                var kcNgang = with / 40;
+                var kcRong = with / 40;
+                var x = rowIndex / 41;
+                var y = rowIndex % 41;
                 return new Point(kcNgang * y, kcRong * x);
             }
             catch (Exception e)
             {
             }
-            return new Point(new Random().Next(1, 10) * 50, new Random().Next(1, 10) * 50);
+            return new Point(new Random().Next(1, 20) * 30, new Random().Next(1, 20) * 30);
         }
 
 
@@ -288,7 +299,6 @@ namespace unlock_282
                     }
                     menu_dgv.Items.Add("GiaiCheckPoint").Name = "GiaiCheckPoint";
                     menu_dgv.Items.Add("Copy UID").Name = "Copy UID";
-                    menu_dgv.Items.Add("Delete").Name = "Delete";
                     menu_dgv.Show(dgvAccounts, new Point(e.X, e.Y));
                     menu_dgv.ItemClicked += new ToolStripItemClickedEventHandler(my_menu_ItemChicked);
                 }
@@ -344,5 +354,33 @@ namespace unlock_282
             listAcc.RemoveAt(rowIndex);
             File.WriteAllText(Common.link_account, JsonConvert.SerializeObject(listAcc));
         }
+
+        private void dgvAccounts_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var dgvAccs = dgvAccounts;
+            var  rowIndex = e.RowIndex;
+            if (dgvAccs["status", rowIndex].Value != null)
+            {
+                string text = dgvAccs["status", rowIndex].Value.ToString();
+                if (text.Contains("Giải oke !!!"))
+                {
+                    dgvAccs.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Green;
+                    return;
+                }
+                if (text.Contains("Up CMT"))
+                {
+                    dgvAccs.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.FromArgb(52, 74, 255);
+                    return;
+                }
+                dgvAccs.Rows[rowIndex].DefaultCellStyle.ForeColor = default(Color);
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            var listAccTds = (BindingList<ModelAccount>)dgvAccounts.DataSource;
+            Common.LuuThongTinTaiKhoanKhiKetThuc(listAccTds);
+        }
+
     }
 }

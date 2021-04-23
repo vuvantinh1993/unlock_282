@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,27 @@ namespace unlock_282
             var accounts = File.ReadAllText(link_account);
             var listAcc = JsonConvert.DeserializeObject<BindingList<ModelAccount>>(accounts);
             return listAcc;
+        }
+
+        public static void LuuThongTinTaiKhoanKhiKetThuc(BindingList<ModelAccount> listAccNews)
+        {
+            var link = link_account;
+            if (listAccNews != null)
+            {
+                var accounts = File.ReadAllText(link);
+                var listAcc = JArray.Parse(accounts);
+                for (int i = 0; i < listAccNews.Count(); i++)
+                {
+                    listAcc[i]["note"] = listAccNews[i].note;
+                    listAcc[i]["uid"] = listAccNews[i].uid;
+                    listAcc[i]["pass"] = listAccNews[i].pass;
+                    listAcc[i]["_2fa"] = listAccNews[i]._2fa;
+                    listAcc[i]["proxy"] = listAccNews[i].proxy;
+                    listAcc[i]["stt"] = listAccNews[i].stt;
+                    listAcc[i]["status"] = listAccNews[i].status;
+                }
+                File.WriteAllText(link, JsonConvert.SerializeObject(listAcc));
+            }
         }
 
         private static void DanhSoLaiVaXoaTaiKhoanKoDungConvertStatus()
