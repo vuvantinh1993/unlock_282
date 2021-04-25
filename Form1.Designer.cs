@@ -44,6 +44,7 @@ namespace unlock_282
             this.cbStop = new System.Windows.Forms.CheckBox();
             this.ClearAll = new System.Windows.Forms.Button();
             this.opennow = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             this.SuspendLayout();
@@ -114,11 +115,11 @@ namespace unlock_282
             // 
             // run
             // 
-            this.run.Location = new System.Drawing.Point(803, 8);
+            this.run.Location = new System.Drawing.Point(555, 8);
             this.run.Name = "run";
             this.run.Size = new System.Drawing.Size(141, 41);
             this.run.TabIndex = 1;
-            this.run.Text = "Mở";
+            this.run.Text = "Giải 282 m.fb";
             this.run.UseVisualStyleBackColor = true;
             this.run.Click += new System.EventHandler(this.run_Click);
             // 
@@ -144,7 +145,7 @@ namespace unlock_282
             this.nbrLuong.Size = new System.Drawing.Size(55, 20);
             this.nbrLuong.TabIndex = 3;
             this.nbrLuong.Value = new decimal(new int[] {
-            10,
+            4,
             0,
             0,
             0});
@@ -180,19 +181,30 @@ namespace unlock_282
             // 
             // opennow
             // 
-            this.opennow.Location = new System.Drawing.Point(526, 8);
+            this.opennow.Location = new System.Drawing.Point(359, 10);
             this.opennow.Name = "opennow";
-            this.opennow.Size = new System.Drawing.Size(140, 37);
+            this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
-            this.opennow.Text = "Mở 2";
+            this.opennow.Text = "Giải 282 www";
             this.opennow.UseVisualStyleBackColor = true;
             this.opennow.Click += new System.EventHandler(this.opennow_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(814, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(154, 41);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Giải 282 ";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 540);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
             this.Controls.Add(this.cbStop);
@@ -228,6 +240,7 @@ namespace unlock_282
         private System.Windows.Forms.CheckBox cbStop;
         private System.Windows.Forms.Button ClearAll;
         private System.Windows.Forms.Button opennow;
+        private System.Windows.Forms.Button button1;
     }
 }
 

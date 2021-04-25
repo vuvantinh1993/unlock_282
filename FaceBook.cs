@@ -39,7 +39,16 @@ namespace unlock_282
                 dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
                 throw new Exception($"Đăng nhập{e.Message}");
             }
-            chromeDriver.Url = _urlMLogin;
+
+            try
+            {
+                chromeDriver.FindElement(By.Name("action_proceed")).Click();
+            }
+            catch (Exception)
+            {
+            }
+
+            chromeDriver.Url = "https://www.facebook.com/";
             Thread.Sleep(1000);
             if (chromeDriver.Url.Contains("1501092823525282"))
             {
@@ -48,6 +57,115 @@ namespace unlock_282
             }
             dgvAccounts["status", rowIndex].Value = "Không phải checkpoint 282";
             throw new Exception();
+        }
+
+        public void GoCheckpoint1(string sdt)
+        {
+            // cần check lại có capcha hay ko ở đây
+            try
+            {
+                chromeDriver.FindElement(By.XPath("//span[text()='Yêu cầu xem xét lại']")).Click();
+                Thread.Sleep(7000);
+            }
+            catch (Exception)
+            {
+            }
+
+            if (chromeDriver.PageSource.Contains("Giúp chúng tôi xác nhận đó là bạn"))
+            {
+                Thread.Sleep(15000);
+                var i = 0;
+                while(i < 40)
+                {
+                    chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+                    Thread.Sleep(5000);
+                    if (!chromeDriver.PageSource.Contains("Giúp chúng tôi xác nhận đó là bạn"))
+                    {
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+            try
+            {
+                //var selectElement = 
+                chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
+                Thread.Sleep(2000);
+                var ck = 0;
+                while(ck < 10)
+                {
+                    ck++;
+                    try
+                    {
+                        chromeDriver.FindElement(By.XPath("//span[text()='Việt Nam (+84)']")).Click();
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                }
+                chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
+                chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
+
+                //var selectObject = new SelectElement(selectElement);
+                //selectObject.SelectByValue("VN");
+            }
+            catch (Exception)
+            {
+                dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
+                throw new Exception();
+            }
+
+        }
+        public void GhiOtpVaUpAnh(string otp)
+        {
+            try
+            {
+                dgvAccounts["status", rowIndex].Value = $"Mã otp sim {otp}";
+                chromeDriver.FindElement(By.XPath("//input[contains(@id,'jsc_c')]")).SendKeys(otp);
+                chromeDriver.FindElement(By.XPath("//span[text()='Tiếp']")).Click();
+                Thread.Sleep(1000);
+
+                var d = 0;
+                while (!chromeDriver.PageSource.Contains("image/*,image/heif,image/heic") || d > 12)
+                {
+                    Thread.Sleep(1000);
+                    d++;
+                }
+                Thread.Sleep(1000);
+                var linkanh = Common.GetOneImage();
+                chromeDriver.FindElement(By.XPath("//input[@accept='image/*,image/heif,image/heic']")).SendKeys(linkanh);
+                Thread.Sleep(1500);
+                chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+                Thread.Sleep(2000);
+
+                var m = 0;
+                while (!chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn") && m < 10)
+                {
+                    chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+                    Thread.Sleep(2000);
+                    m++;
+                }
+                if (m >= 9)
+                {
+                    dgvAccounts["status", rowIndex].Value = "Up CMT";
+                    return;
+                }
+                dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+            }
+            catch (Exception)
+            {
+            }
+            
+            return;
+        }
+
+        public void LayLaiMaCode()
+        {
+            dgvAccounts["status", rowIndex].Value = "Yêu cầu lại mã mới";
+            chromeDriver.FindElement(By.XPath("//div[text()='Gửi lại mã xác nhận']")).Click();
         }
 
         public async Task<bool> GoCheckPoint282Async()
@@ -135,7 +253,7 @@ namespace unlock_282
                 Thread.Sleep(1000);
                 m++;
             }
-            if(m >= 9)
+            if (m >= 9)
             {
                 dgvAccounts["status", rowIndex].Value = "Up CMT";
                 return false;

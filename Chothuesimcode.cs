@@ -57,6 +57,10 @@ namespace unlock_282
                             return rs.Result.Code;
                         }
                     }
+                    if(rs.Msg == "không nhận được code, quá thời gian chờ")
+                    {
+                        return "";
+                    }
                     Thread.Sleep(5000);
                     i += 5;
                 }
