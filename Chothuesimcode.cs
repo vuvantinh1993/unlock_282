@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace unlock_282
 {
-   public class Chothuesimcode
+   public class Chothuesimcode: ResolveCaptcha
     {
         private string key = "07bf9f80";
         private HttpClient _httpClient;

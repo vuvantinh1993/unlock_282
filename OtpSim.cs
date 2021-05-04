@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace unlock_282
 {
-   public class OtpSim
-   {
+   public class OtpSim: ResolveCaptcha
+    {
         private string key = "1c7f3fb08f4262206a84897707722d82";
         private HttpClient _httpClient;
         private string _session = "";

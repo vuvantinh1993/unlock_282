@@ -89,6 +89,16 @@ namespace unlock_282
 
             try
             {
+                dgvAccounts["status", rowIndex].Value = "Thay số điện thoại khác";
+                chromeDriver.FindElements(By.XPath("//span[text()='Cập nhật số di động']"))[1].Click();
+                Thread.Sleep(2000);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
                 //var selectElement = 
                 chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
                 Thread.Sleep(2000);
@@ -114,6 +124,90 @@ namespace unlock_282
             }
             catch (Exception)
             {
+
+                if (chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
+                {
+                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                    throw new Exception();
+                }
+
+                dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
+                throw new Exception();
+            }
+
+        }
+
+        public void GoCheckpointMBasic(string sdt)
+        {
+            // cần check lại có capcha hay ko ở đây
+            try
+            {
+                chromeDriver.FindElement(By.Name("action_proceed")).Click();
+                Thread.Sleep(7000);
+            }
+            catch (Exception)
+            {
+            }
+
+            if (chromeDriver.PageSource.Contains("Giúp chúng tôi xác nhận đó là bạn"))
+            {
+                Thread.Sleep(15000);
+                var i = 0;
+                while (i < 40)
+                {
+                    chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+                    Thread.Sleep(5000);
+                    if (!chromeDriver.PageSource.Contains("Giúp chúng tôi xác nhận đó là bạn"))
+                    {
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+            try
+            {
+                dgvAccounts["status", rowIndex].Value = "Thay số điện thoại khác";
+                //chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            try
+            {
+                //var selectElement = 
+                chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
+                Thread.Sleep(2000);
+                var ck = 0;
+                while (ck < 10)
+                {
+                    ck++;
+                    try
+                    {
+                        chromeDriver.FindElement(By.XPath("//span[text()='Việt Nam (+84)']")).Click();
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                }
+                chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
+                chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
+
+                //var selectObject = new SelectElement(selectElement);
+                //selectObject.SelectByValue("VN");
+            }
+            catch (Exception)
+            {
+                if (chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
+                {
+                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                    throw new Exception();
+                }
                 dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
                 throw new Exception();
             }
@@ -153,7 +247,14 @@ namespace unlock_282
                     dgvAccounts["status", rowIndex].Value = "Up CMT";
                     return;
                 }
-                dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                if(chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
+                {
+                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                }
+                else
+                {
+                    dgvAccounts["status", rowIndex].Value = "Không rõ kết quả";
+                }
             }
             catch (Exception)
             {
@@ -316,6 +417,16 @@ namespace unlock_282
                 }
                 catch (Exception)
                 {
+                }
+                try
+                {
+                    chromeDriver.FindElement(By.XPath("//div[@data-sigil='more_language']")).Click();
+                    Thread.Sleep(1000);
+                    chromeDriver.FindElement(By.XPath("//span[@value='vi_VN']")).Click();
+                }
+                catch (Exception)
+                {
+
                 }
             }
             catch (Exception)

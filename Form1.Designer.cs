@@ -45,6 +45,8 @@ namespace unlock_282
             this.ClearAll = new System.Windows.Forms.Button();
             this.opennow = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             this.SuspendLayout();
@@ -115,7 +117,7 @@ namespace unlock_282
             // 
             // run
             // 
-            this.run.Location = new System.Drawing.Point(555, 8);
+            this.run.Location = new System.Drawing.Point(383, 4);
             this.run.Name = "run";
             this.run.Size = new System.Drawing.Size(141, 41);
             this.run.TabIndex = 1;
@@ -145,7 +147,7 @@ namespace unlock_282
             this.nbrLuong.Size = new System.Drawing.Size(55, 20);
             this.nbrLuong.TabIndex = 3;
             this.nbrLuong.Value = new decimal(new int[] {
-            4,
+            6,
             0,
             0,
             0});
@@ -162,7 +164,7 @@ namespace unlock_282
             // cbStop
             // 
             this.cbStop.AutoSize = true;
-            this.cbStop.Location = new System.Drawing.Point(161, 16);
+            this.cbStop.Location = new System.Drawing.Point(126, 8);
             this.cbStop.Name = "cbStop";
             this.cbStop.Size = new System.Drawing.Size(48, 17);
             this.cbStop.TabIndex = 5;
@@ -181,7 +183,7 @@ namespace unlock_282
             // 
             // opennow
             // 
-            this.opennow.Location = new System.Drawing.Point(359, 10);
+            this.opennow.Location = new System.Drawing.Point(225, 6);
             this.opennow.Name = "opennow";
             this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
@@ -199,11 +201,33 @@ namespace unlock_282
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(541, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(143, 37);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "Giải 282 mbasic";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(126, 28);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(66, 17);
+            this.checkBox1.TabIndex = 10;
+            this.checkBox1.Text = "OTP sim";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 540);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
@@ -241,6 +265,8 @@ namespace unlock_282
         private System.Windows.Forms.Button ClearAll;
         private System.Windows.Forms.Button opennow;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
