@@ -59,7 +59,7 @@ namespace unlock_282
             throw new Exception();
         }
 
-        public void GoCheckpoint1(string sdt)
+        public void GiaiCaptchawww()
         {
             // cần check lại có capcha hay ko ở đây
             try
@@ -86,7 +86,10 @@ namespace unlock_282
                     i++;
                 }
             }
+        }
 
+        public bool NhapSDTwww(string sdt)
+        {
             try
             {
                 dgvAccounts["status", rowIndex].Value = "Thay số điện thoại khác";
@@ -103,7 +106,7 @@ namespace unlock_282
                 chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
                 Thread.Sleep(2000);
                 var ck = 0;
-                while(ck < 10)
+                while (ck < 10)
                 {
                     ck++;
                     try
@@ -118,12 +121,13 @@ namespace unlock_282
                 }
                 chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
                 chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
-
-                //var selectObject = new SelectElement(selectElement);
-                //selectObject.SelectByValue("VN");
             }
             catch (Exception)
             {
+                if (chromeDriver.PageSource.Contains("lên ảnh có mặt"))
+                {
+                    return false;
+                }
 
                 if (chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
                 {
@@ -134,7 +138,7 @@ namespace unlock_282
                 dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
                 throw new Exception();
             }
-
+            return true;
         }
 
         public void GoCheckpointMBasic(string sdt)
@@ -213,14 +217,29 @@ namespace unlock_282
             }
 
         }
-        public void GhiOtpVaUpAnh(string otp)
+
+        public  void NhapOTP(string otp)
+        {
+            if (otp != "")
+            {
+                try
+                {
+                    dgvAccounts["status", rowIndex].Value = $"Nhập mã otp sim {otp}";
+                    chromeDriver.FindElement(By.XPath("//input[contains(@id,'jsc_c')]")).SendKeys(otp);
+                    chromeDriver.FindElement(By.XPath("//span[text()='Tiếp']")).Click();
+                    Thread.Sleep(1000);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            dgvAccounts["status", rowIndex].Value = $"Không có mã OTP";
+        }
+
+        public void NhapAnhWWW()
         {
             try
             {
-                dgvAccounts["status", rowIndex].Value = $"Mã otp sim {otp}";
-                chromeDriver.FindElement(By.XPath("//input[contains(@id,'jsc_c')]")).SendKeys(otp);
-                chromeDriver.FindElement(By.XPath("//span[text()='Tiếp']")).Click();
-                Thread.Sleep(1000);
 
                 var d = 0;
                 while (!chromeDriver.PageSource.Contains("image/*,image/heif,image/heic") || d > 12)
@@ -259,7 +278,7 @@ namespace unlock_282
             catch (Exception)
             {
             }
-            
+            dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
             return;
         }
 
@@ -300,7 +319,7 @@ namespace unlock_282
                 throw new Exception();
             }
 
-            var otpsim = new Chothuesimcode();
+            var otpsim = new Chothuesimcode("");
 
             dgvAccounts["status", rowIndex].Value = "Lấy 1 số điện thoại";
             var sdt = await otpsim.GetPhone();
@@ -399,12 +418,12 @@ namespace unlock_282
                     Thread.Sleep(500);
                     chromeDriver.FindElement(By.Name("submit[Continue]")).Click();
                 }
-                Thread.Sleep(1000);
-                if (chromeDriver.PageSource.Contains("Đăng nhập bằng một lần nhấn"))
-                {
-                    chromeDriver.FindElement(By.XPath("//a[contains(@href,'login')]")).Click();
-                }
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
+                //if (chromeDriver.PageSource.Contains("Đăng nhập bằng một lần nhấn"))
+                //{
+                //    chromeDriver.FindElement(By.XPath("//a[contains(@href,'login')]")).Click();
+                //}
+                //Thread.Sleep(1000);
                 try
                 {
                     chromeDriver.FindElement(By.Id("checkpointSubmitButton-actual-button")).Click();

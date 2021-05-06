@@ -11,13 +11,14 @@ namespace unlock_282
 {
    public class OtpSim: ResolveCaptcha
     {
-        private string key = "1c7f3fb08f4262206a84897707722d82";
+        //private string key = "1c7f3fb08f4262206a84897707722d82";
+        private string key ;
         private HttpClient _httpClient;
         private string _session = "";
-        public OtpSim()
+        public OtpSim(string _key)
         {
             _httpClient = new HttpClient() { BaseAddress = new Uri( "http://www.otpsim.com/api/") };
-
+            key = _key;
         }
 
         public async Task<string> GetPhone()
@@ -36,7 +37,7 @@ namespace unlock_282
             catch (Exception e)
             {
             }
-            throw new Exception();
+            return "";
         }
 
 
@@ -45,7 +46,7 @@ namespace unlock_282
             try
             {
                 var i = 0;
-                while(i <= 310)
+                while(i <= 40)
                 {
                     var http = await _httpClient.GetAsync($"sessions/{_session}?token={key}");
                     var ress = http.Content.ReadAsStringAsync();
@@ -65,7 +66,7 @@ namespace unlock_282
             {
 
             }
-            throw new Exception();
+            return "";
         }
     }
 

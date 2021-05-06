@@ -11,13 +11,14 @@ namespace unlock_282
 {
    public class Chothuesimcode: ResolveCaptcha
     {
-        private string key = "07bf9f80";
+        //private string key = "07bf9f80";
+        private string key;
         private HttpClient _httpClient;
         private string _session = "";
-        public Chothuesimcode()
+        public Chothuesimcode(string _key)
         {
             _httpClient = new HttpClient() { BaseAddress = new Uri("https://chothuesimcode.com/api") };
-
+            key = _key;
         }
 
         public async Task<string> GetPhone()
@@ -36,7 +37,7 @@ namespace unlock_282
             catch (Exception e)
             {
             }
-            throw new Exception();
+            return "";
         }
 
 

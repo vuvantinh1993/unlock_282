@@ -20,6 +20,7 @@ namespace unlock_282
     {
         private int i = 0;
         public IWebDriver[] chromeDrivers = new IWebDriver[10000];
+        public bool isDESC = true;
 
         public Form1()
         {
@@ -304,6 +305,7 @@ namespace unlock_282
                     }
                     menu_dgv.Items.Add("GiaiCheckPoint").Name = "GiaiCheckPoint";
                     menu_dgv.Items.Add("Copy UID").Name = "Copy UID";
+                    menu_dgv.Items.Add("Delete").Name = "Delete";
                     menu_dgv.Show(dgvAccounts, new Point(e.X, e.Y));
                     menu_dgv.ItemClicked += new ToolStripItemClickedEventHandler(my_menu_ItemChicked);
                 }
@@ -452,9 +454,9 @@ namespace unlock_282
                                         DenLaySDT(j, facebook);
 
 
-                                        var otpsim = new Chothuesimcode();
+                                        var otpsim = new Chothuesimcode(tbkey.Text);
                                         var sdt = await otpsim.GetPhone();
-                                        facebook.GoCheckpoint1(sdt);
+                                        //facebook.GoCheckpoint1(sdt);
 
                                         dgvAccounts["status", j].Value = "Lấy mã otp";
 
@@ -483,7 +485,7 @@ namespace unlock_282
                                         }
                                         //
 
-                                        facebook.GhiOtpVaUpAnh(otp);
+                                        //facebook.GhiOtpVaUpAnh(otp);
                                         throw new Exception();
                                     }
                                     catch (Exception e2)
@@ -544,46 +546,82 @@ namespace unlock_282
 
                             try
                             {
+                                CheckStop(rowIndex);
+                                if (CbStopAll.Checked)
+                                {
+                                    dgvAccounts["status", rowIndex].Value = "Dừng hẳn !!";
+                                    return;
+                                }
+
                                 dgvAccounts["status", rowIndex].Value = "Khởi tạo Chrome";
                                 TaoChrome(rowIndex);
                                 var facebook = new FaceBook(dgvAccounts, rowIndex, chromeDrivers[rowIndex]);
 
                                 tasks[rowIndex] = Task.Run(async () =>
                                 {
-                                    tasksCon[rowIndex] = Task.Run(async () =>
+                                    
+                                    try
+                                    {
+                                        dgvAccounts["status", rowIndex].Value = "Đăng Nhập Facebook";
+                                        facebook.DangNhap();
+                                    }
+                                    catch (Exception)
                                     {
                                         try
                                         {
-                                            DenLaySDT(rowIndex, facebook);
-                                           
+                                            chromeDrivers[rowIndex].Quit();
+                                            chromeDrivers[rowIndex] = null;
                                         }
                                         catch (Exception)
                                         {
-                                            try
-                                            {
-                                                chromeDrivers[rowIndex].Quit();
-                                                chromeDrivers[rowIndex] = null;
-                                            }
-                                            catch (Exception)
-                                            {
-                                            }
-                                            return;
                                         }
-                                    });
-                                    Task.WaitAll(tasksCon.Where(x => x != null).ToArray());
-                                    tasksCon = new Task[listAccs.Count()];
+                                        return;
+                                    }
 
                                     if (chromeDrivers[rowIndex] == null)
                                         return;
 
-                                    // Lấy lại mã code
-                                    dgvAccounts["status", rowIndex].Value = "Lấy mã otp";
+                                    dgvAccounts["status", rowIndex].Value = "Kiểm tra đã up ảnh chưa";
+                                    if (chromeDrivers[rowIndex].PageSource.Contains("lên ảnh có mặt"))
+                                    {
+                                        goto GoUpAnh;
+                                    }
+                                    if (chromeDrivers[rowIndex].PageSource.Contains("cầm giấy tờ tùy thân"))
+                                    {
+                                        dgvAccounts["status", rowIndex].Value = "Up CMT";
+                                        chromeDrivers[rowIndex].Quit();
+                                        chromeDrivers[rowIndex] = null;
+                                        return;
+                                    }
 
-                                    var otpsim = checkBox1.Checked ? (ResolveCaptcha)new OtpSim(): (ResolveCaptcha)new Chothuesimcode();
+                                    if (chromeDrivers[rowIndex].PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
+                                    {
+                                        dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                                        chromeDrivers[rowIndex].Quit();
+                                        chromeDrivers[rowIndex] = null;
+                                        return;
+                                    }
+
+                                    var otpsim = checkBox1.Checked ? (ResolveCaptcha)new OtpSim(tbkey.Text) : (ResolveCaptcha)new Chothuesimcode(tbkey.Text);
+                                    var sdt = "";
+                                    var otp = "";
                                     try
                                     {
-                                        var sdt = await otpsim.GetPhone();
-                                        facebook.GoCheckpoint1(sdt);
+                                        facebook.GiaiCaptchawww();
+                                        var pagesource = chromeDrivers[rowIndex].PageSource;
+                                        if (pagesource.Contains("Cập nhật số di động") || pagesource.Contains("Chọn mã quốc gia"))
+                                        {
+                                            dgvAccounts["status", rowIndex].Value = "Lấy mã một sô điện thoại";
+                                            while (sdt == "")
+                                            {
+                                                sdt = await otpsim.GetPhone();
+                                                Thread.Sleep(10000);
+                                            }
+                                            var giai = facebook.NhapSDTwww(sdt);
+                                            if (!giai)
+                                                goto GoUpAnh;
+                                        }
+
                                     }
                                     catch (Exception)
                                     {
@@ -591,21 +629,31 @@ namespace unlock_282
                                         chromeDrivers[rowIndex].Quit();
                                         return;
                                     }
-
                                     if (chromeDrivers[rowIndex] == null)
                                         return;
 
-                                    var otp = "";
+                                    if (sdt == "")
+                                    {
+                                        dgvAccounts["status", rowIndex].Value = "Không có sdt kết thúc";
+                                        chromeDrivers[rowIndex].Quit();
+                                        chromeDrivers[rowIndex] = null;
+                                        return;
+                                    }
                                     var m = 0;
                                 laylaicode:
-                                    
                                     otp = await otpsim.GetCode();
                                         
                                     if (otp == "" && m < 8)
                                     {
                                         m++;
                                         dgvAccounts["status", rowIndex].Value = "Yêu cầu lại mã mới";
-                                        chromeDrivers[rowIndex].FindElement(By.XPath("//div[text()='Gửi lại mã xác nhận']")).Click();
+                                        try
+                                        {
+                                            chromeDrivers[rowIndex].FindElement(By.XPath("//div[text()='Gửi lại mã xác nhận']")).Click();
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
                                         goto laylaicode;
                                     }
                                     if (otp == "")
@@ -622,8 +670,9 @@ namespace unlock_282
                                         return;
                                     }
                                     //
-
-                                    facebook.GhiOtpVaUpAnh(otp);
+                                    facebook.NhapOTP(otp);
+                                   GoUpAnh:
+                                    facebook.NhapAnhWWW();
                                     try
                                     {
                                         chromeDrivers[rowIndex].Manage().Cookies.DeleteAllCookies();
@@ -718,11 +767,11 @@ namespace unlock_282
                                     // Lấy lại mã code
                                     dgvAccounts["status", rowIndex].Value = "Lấy mã otp";
 
-                                    var otpsim = new Chothuesimcode();
+                                    var otpsim = new Chothuesimcode(tbkey.Text);
                                     try
                                     {
                                         var sdt = await otpsim.GetPhone();
-                                        facebook.GoCheckpoint1(sdt);
+                                        //facebook.GoCheckpoint1(sdt);
                                     }
                                     catch (Exception)
                                     {
@@ -762,7 +811,7 @@ namespace unlock_282
                                     }
                                     //
 
-                                    facebook.GhiOtpVaUpAnh(otp);
+                                    //facebook.GhiOtpVaUpAnh(otp);
                                     try
                                     {
                                         chromeDrivers[rowIndex].Manage().Cookies.DeleteAllCookies();
@@ -794,6 +843,45 @@ namespace unlock_282
             }
         }
 
+        private void dgvAccounts_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string columnName = dgvAccounts.Columns[e.ColumnIndex].Name;
+            SortHeard(dgvAccounts, columnName, sender, e);
+            var list = (BindingList<ModelAccount>)dgvAccounts.DataSource;
+            Common.LuuThongTinTaiKhoanKhiKetThuc(list);
+        }
+
+        private void SortHeard(DataGridView dgvAccs, string columnName, object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if ((columnName == "An" || columnName == "Stop") && e.Button == MouseButtons.Left)
+            {
+                foreach (DataGridViewRow row in dgvAccs.Rows)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[e.ColumnIndex];
+                    chk.Value = !(chk.Value == null ? false : (bool)chk.Value);
+                }
+            }
+            if (columnName == "XuHT" || columnName == "note" || columnName == "status" || columnName == "tenTDS" || columnName == "pass" || columnName == "Proxy")
+            {
+                var list = (IList<ModelAccount>)dgvAccs.DataSource;
+                if (list == null || list.Count() == 0)
+                    return;
+                if (columnName == "status" && e.Button == MouseButtons.Left)
+                {
+                    var listnew = list.OrderByDescending(x => x.status).ToList();
+                    if (isDESC)
+                    {
+                        listnew = list.OrderBy(x => x.status).ToList();
+                        isDESC = false;
+                    }
+                    else
+                    {
+                        isDESC = true;
+                    }
+                    dgvAccs.DataSource = new BindingList<ModelAccount>(listnew);
+                }
+            }
+        }
     }
 
 }
