@@ -49,6 +49,8 @@ namespace unlock_282
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.CbStopAll = new System.Windows.Forms.CheckBox();
             this.tbkey = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.cbbDichVu = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             this.SuspendLayout();
@@ -122,7 +124,7 @@ namespace unlock_282
             // 
             this.run.Location = new System.Drawing.Point(528, 8);
             this.run.Name = "run";
-            this.run.Size = new System.Drawing.Size(141, 41);
+            this.run.Size = new System.Drawing.Size(93, 41);
             this.run.TabIndex = 1;
             this.run.Text = "Giải 282 m.fb";
             this.run.UseVisualStyleBackColor = true;
@@ -150,7 +152,7 @@ namespace unlock_282
             this.nbrLuong.Size = new System.Drawing.Size(55, 20);
             this.nbrLuong.TabIndex = 3;
             this.nbrLuong.Value = new decimal(new int[] {
-            6,
+            22,
             0,
             0,
             0});
@@ -196,19 +198,19 @@ namespace unlock_282
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(789, 8);
+            this.button1.Location = new System.Drawing.Point(712, 8);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 41);
+            this.button1.Size = new System.Drawing.Size(83, 41);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Giải 282 ";
+            this.button1.Text = "Bỏ sđt sau 282";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(675, 10);
+            this.button2.Location = new System.Drawing.Point(627, 9);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 37);
+            this.button2.Size = new System.Drawing.Size(79, 37);
             this.button2.TabIndex = 9;
             this.button2.Text = "Giải 282 mbasic";
             this.button2.UseVisualStyleBackColor = true;
@@ -217,7 +219,7 @@ namespace unlock_282
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(126, 28);
+            this.checkBox1.Location = new System.Drawing.Point(308, 3);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(66, 17);
             this.checkBox1.TabIndex = 10;
@@ -227,7 +229,7 @@ namespace unlock_282
             // CbStopAll
             // 
             this.CbStopAll.AutoSize = true;
-            this.CbStopAll.Location = new System.Drawing.Point(203, 6);
+            this.CbStopAll.Location = new System.Drawing.Point(231, 6);
             this.CbStopAll.Name = "CbStopAll";
             this.CbStopAll.Size = new System.Drawing.Size(71, 17);
             this.CbStopAll.TabIndex = 11;
@@ -236,16 +238,41 @@ namespace unlock_282
             // 
             // tbkey
             // 
-            this.tbkey.Location = new System.Drawing.Point(203, 26);
+            this.tbkey.Location = new System.Drawing.Point(227, 26);
             this.tbkey.Name = "tbkey";
             this.tbkey.Size = new System.Drawing.Size(146, 20);
             this.tbkey.TabIndex = 12;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(801, 9);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(83, 41);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Check 282";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // cbbDichVu
+            // 
+            this.cbbDichVu.FormattingEnabled = true;
+            this.cbbDichVu.Items.AddRange(new object[] {
+            "CTSC",
+            "OTPSIM",
+            "CODETEXTNOW"});
+            this.cbbDichVu.Location = new System.Drawing.Point(127, 24);
+            this.cbbDichVu.Name = "cbbDichVu";
+            this.cbbDichVu.Size = new System.Drawing.Size(94, 21);
+            this.cbbDichVu.TabIndex = 14;
+            this.cbbDichVu.Text = "CTSC";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 540);
+            this.Controls.Add(this.cbbDichVu);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.tbkey);
             this.Controls.Add(this.CbStopAll);
             this.Controls.Add(this.checkBox1);
@@ -291,6 +318,8 @@ namespace unlock_282
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox CbStopAll;
         private System.Windows.Forms.TextBox tbkey;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox cbbDichVu;
     }
 }
 

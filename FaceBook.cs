@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,6 +41,11 @@ namespace unlock_282
                 throw new Exception($"Đăng nhập{e.Message}");
             }
 
+            if(chromeDriver.Url.Contains("referrer=disabled_checkpoint"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản die -- tải xuống DL";
+                throw new Exception();
+            }
             try
             {
                 chromeDriver.FindElement(By.Name("action_proceed")).Click();
@@ -48,6 +54,7 @@ namespace unlock_282
             {
             }
 
+
             chromeDriver.Url = "https://www.facebook.com/";
             Thread.Sleep(1000);
             if (chromeDriver.Url.Contains("1501092823525282"))
@@ -55,9 +62,135 @@ namespace unlock_282
                 dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint 282";
                 return true;
             }
+            if (chromeDriver.Url.Contains("828281030927956"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint 956";
+                throw new Exception();
+            }
+            if (chromeDriver.Url.Contains("checkpoint"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài Khoản Live !!";
+                throw new Exception();
+            }
             dgvAccounts["status", rowIndex].Value = "Không phải checkpoint 282";
             throw new Exception();
         }
+
+        public bool DangNhap2()
+        {
+            try
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập Fb bằng Uid và Pass";
+                DangNhapVoiUidVaPass(dgvAccounts.Rows[rowIndex].Cells["uid"].Value.ToString(), dgvAccounts.Rows[rowIndex].Cells["pass"].Value.ToString());
+            }
+            catch (Exception e)
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
+                throw new Exception($"Đăng nhập{e.Message}");
+            }
+
+            try
+            {
+                chromeDriver.FindElement(By.Name("action_proceed")).Click();
+            }
+            catch (Exception)
+            {
+            }
+
+            chromeDriver.Url = "https://m.facebook.com/";
+            if (chromeDriver.Url.Contains("checkpoint") || chromeDriver.PageSource.Contains("Tạo tài khoản mới"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint, hoặc đăg nhập thất bại";
+                throw new Exception();
+            }
+            dgvAccounts["status", rowIndex].Value = "Tài khoản oke";
+            return true;
+        }
+
+        public bool DangNhapMbasic()
+        {
+            try
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập Fb bằng Uid và Pass";
+                DangNhapVoiUidVaPass(dgvAccounts.Rows[rowIndex].Cells["uid"].Value.ToString(), dgvAccounts.Rows[rowIndex].Cells["pass"].Value.ToString());
+            }
+            catch (Exception e)
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
+                throw new Exception($"Đăng nhập{e.Message}");
+            }
+
+            try
+            {
+                chromeDriver.FindElement(By.Name("action_proceed")).Click();
+            }
+            catch (Exception)
+            {
+            }
+
+            chromeDriver.Url = "https://mbasic.facebook.com/";
+            if (chromeDriver.Url.Contains("1501092823525282"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint 282";
+                return true;
+            }
+            if (!chromeDriver.Url.Contains("login") && !chromeDriver.PageSource.Contains("tài khoản của bạn đã bị khóa"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản oke";
+                throw new Exception();
+            }
+            var num = "";
+            num = new Regex(@"\d+").Match(chromeDriver.Url).Value;
+            dgvAccounts["status", rowIndex].Value = $"Check point dạng khác {num}";
+            throw new Exception();
+        }
+
+        public void XoaSDT282()
+        {
+            try
+            {
+                var mkcu = dgvAccounts["pass", rowIndex].Value.ToString();
+                try
+                {
+                    dgvAccounts["status", rowIndex].Value = "Chọn gỡ số";
+                    chromeDriver.Url = "https://mbasic.facebook.com/settings/sms/?refid=70";
+                    chromeDriver.FindElement(By.XPath("//a[text()='Gỡ']")).Click();
+                    Thread.Sleep(1000);
+                    chromeDriver.FindElement(By.Name("remove_phone_warning_acknwoledged")).Click();
+                    chromeDriver.FindElement(By.XPath("//input[@value='Gỡ số']")).Click();
+
+                    dgvAccounts["status", rowIndex].Value = "Nhập mk cũ";
+                    Thread.Sleep(1000);
+                    chromeDriver.FindElement(By.Name("save_password")).SendKeys(mkcu);
+                    chromeDriver.FindElement(By.XPath("//input[@value='Gỡ điện thoại']")).Click();
+                    chromeDriver.Url = "https://m.facebook.com";
+                    Thread.Sleep(2000);
+                    dgvAccounts["status", rowIndex].Value = "Gỡ sđt oke !!!";
+                }
+                catch (Exception)
+                {
+                    dgvAccounts["status", rowIndex].Value = "Không tồn tại sđt !!!";
+                }
+                //chromeDriver.FindElement(By.XPath("//img[contains(@src, 'https://static.xx.fbcdn.net/rsrc.php/v3/ys/r/b5OQbxkXYGI.png')]")).Click();
+                //Thread.Sleep(1000);
+                //dgvAccounts["status", rowIndex].Value = "Chọn gỡ số";
+                //chromeDriver.FindElement(By.XPath("//div[text()='Gỡ']")).Click();
+                //Thread.Sleep(2000);
+                //chromeDriver.FindElement(By.Name("remove_phone_warning_acknwoledged")).Click();
+                //chromeDriver.FindElement(By.XPath("//span[text()='Gỡ số']")).Click();
+
+                //dgvAccounts["status", rowIndex].Value = "Nhập mk cũ";
+                //Thread.Sleep(2000);
+                //chromeDriver.FindElement(By.Name("save_password")).SendKeys(mkcu);
+                //chromeDriver.FindElement(By.XPath("//span[text()='Gỡ điện thoại']")).Click();
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
 
         public void GiaiCaptchawww()
         {
@@ -88,7 +221,7 @@ namespace unlock_282
             }
         }
 
-        public bool NhapSDTwww(string sdt)
+        public bool NhapSDTwww(string sdt, bool isVN)
         {
             try
             {
@@ -102,27 +235,67 @@ namespace unlock_282
 
             try
             {
-                //var selectElement = 
-                chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
-                Thread.Sleep(2000);
-                var ck = 0;
-                while (ck < 10)
+                if (chromeDriver.PageSource.Contains("Chọn mã quốc gia"))
                 {
-                    ck++;
-                    try
+                    chromeDriver.FindElement(By.XPath("//label[@aria-label='Chọn mã quốc gia']")).Click();
+                    Thread.Sleep(2000);
+                    var ck = 0;
+                    while (ck < 10)
                     {
-                        chromeDriver.FindElement(By.XPath("//span[text()='Việt Nam (+84)']")).Click();
-                        break;
+                        ck++;
+                        try
+                        {
+                            if (isVN)
+                            {
+                                chromeDriver.FindElement(By.XPath("//span[text()='Việt Nam (+84)']")).Click();
+                            }
+                            else
+                            {
+                                chromeDriver.FindElement(By.XPath("//span[text()='Hợp chủng quốc Hoa Kỳ (+1)']")).Click();
+                            }
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            Thread.Sleep(1000);
+                        }
                     }
-                    catch (Exception)
-                    {
-                        Thread.Sleep(1000);
-                    }
+                    chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
+                    chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
                 }
-                chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
-                chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
+                else
+                {
+                    IWebElement element = chromeDriver.FindElement(By.XPath("//span[text()='Mã quốc gia']"));
+                    IJavaScriptExecutor js = (IJavaScriptExecutor)chromeDriver;
+                    js.ExecuteScript("arguments[0].click();", element);
+
+                    Thread.Sleep(2000);
+                    var ck = 0;
+                    while (ck < 10)
+                    {
+                        ck++;
+                        try
+                        {
+                            if (isVN)
+                            {
+                                chromeDriver.FindElement(By.XPath("//span[text()='Việt Nam (+84)']")).Click();
+                            }
+                            else
+                            {
+                                chromeDriver.FindElement(By.XPath("//span[text()='Hợp chủng quốc Hoa Kỳ (+1)']")).Click();
+                            }
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                    }
+                    chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
+                    chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 if (chromeDriver.PageSource.Contains("lên ảnh có mặt"))
                 {

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2FA.cs" />
+    <Compile Include="CodeTextNow.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="FaceBook.cs" />
     <Compile Include="Form1.cs">
