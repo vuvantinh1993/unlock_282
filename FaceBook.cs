@@ -76,6 +76,87 @@ namespace unlock_282
             throw new Exception();
         }
 
+        public void DangNhapVoiCookie(string cookies)
+        {
+            cookies = cookies.Replace(" ", "");
+            foreach (string item in cookies.Split(';'))
+            {
+                if (item.Split('=').Count() == 2)
+                {
+                    chromeDriver.Manage().Cookies.AddCookie(new OpenQA.Selenium.Cookie(item.Split('=')[0], item.Split('=')[1]));
+                }
+            }
+        }
+
+        public bool DangNhapVery()
+        {
+            try
+            {
+                dgvAccounts["status", rowIndex].Value = "Đi đăng nhập Facebook";
+                chromeDriver.Url = "https://mbasic.facebook.com/login.php";
+                if (LaTrangDangNhap())
+                {
+                    if (dgvAccounts.Rows[rowIndex].Cells["_2fa"].Value != null && dgvAccounts.Rows[rowIndex].Cells["_2fa"].Value.ToString() != "")
+                    {
+                        dgvAccounts["status", rowIndex].Value = "Đăng nhập Fb bằng cookie";
+                        chromeDriver.Manage().Cookies.DeleteAllCookies();
+                        DangNhapVoiCookie(dgvAccounts.Rows[rowIndex].Cells["_2fa"].Value.ToString());
+                    }
+                    //chromeDriver.Url = _urlMLogin;
+                    //if (LaTrangDangNhap())
+                    //{
+                    //    dgvAccounts["cookie", rowIndex].Value = "";
+                    //    dgvAccounts["status", rowIndex].Value = "Đăng nhập Fb bằng Uid và Pass";
+                    //    DangNhapVoiUidVaPass(dgvAccounts.Rows[rowIndex].Cells["id"].Value.ToString(), dgvAccounts.Rows[rowIndex].Cells["pass"].Value.ToString());
+                    //}
+                }
+            }
+            catch (Exception e)
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
+                throw new Exception();
+            }
+            chromeDriver.Url = "https://mbasic.facebook.com/login.php";
+            Thread.Sleep(1000);
+            if (chromeDriver.Url.Contains("m.facebook.com/nt/screen/?params=") || chromeDriver.PageSource.Contains("Tài khoản của bạn đã bị vô hiệu hóa") || chromeDriver.PageSource.Contains("Your Account Has Been Disabled") || chromeDriver.PageSource.Contains("Chúng tôi cần thêm thông tin"))
+            {
+                dgvAccounts["status", rowIndex].Value = "Tài khoản bị checkpoint, hãy kiểm tra lại";
+                throw new Exception();
+            }
+            if (!LaTrangDangNhap())
+            {
+                dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thành công";
+                return true;
+            }
+            dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
+            throw new Exception();
+        }
+
+        public bool ThemPhone()
+        {
+            try
+            {
+                chromeDriver.FindElement(By.Name("new")).SendKeys("+1213213123");
+
+                chromeDriver.FindElement(By.Name("submit_new_number")).Click();
+                return true;
+            }
+            catch (Exception e)
+            {
+
+            }
+            return true;
+        }
+
+        private bool LaTrangDangNhap()
+        {
+            if (chromeDriver.Url.Contains("login"))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool DangNhap2()
         {
             try
@@ -208,7 +289,7 @@ namespace unlock_282
             {
                 Thread.Sleep(15000);
                 var i = 0;
-                while(i < 40)
+                while (i < 40)
                 {
                     chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
                     Thread.Sleep(5000);
@@ -220,6 +301,47 @@ namespace unlock_282
                 }
             }
         }
+
+        //public async Task GiaiCaptchawwwAsync()
+        //{
+        //    // cần check lại có capcha hay ko ở đây
+        //    try
+        //    {
+        //        chromeDriver.FindElement(By.XPath("//span[text()='Yêu cầu xem xét lại']")).Click();
+        //        Thread.Sleep(7000);
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+
+        //    try
+        //    {
+        //        if (chromeDriver.PageSource.Contains("Giúp chúng tôi xác nhận đó là bạn"))
+        //        {
+        //            var capt = new ResoveCaptcha();
+        //            dgvAccounts["status", rowIndex].Value = "Đi lấy KEY CaptCha";
+        //            await capt.SendKeyAsync();
+        //            dgvAccounts["status", rowIndex].Value = "Đi lấy TOKEN CaptCha";
+        //            var tokenCapt = await capt.GetToken();
+        //            if (tokenCapt == "")
+        //            {
+        //                dgvAccounts["status", rowIndex].Value = "Giải captcha không thành ông";
+        //                throw new Exception();
+        //            }
+
+        //            IJavaScriptExecutor js = chromeDriver as IJavaScriptExecutor;
+        //            js.ExecuteScript($"document.getElementById(\"g-recaptcha-response\").innerHTML=\"{tokenCapt}\";");
+        //            js.ExecuteScript($"successCallback({tokenCapt});");
+        //            Thread.Sleep(1500);
+        //            chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception();
+        //    }
+
+        //}
 
         public bool NhapSDTwww(string sdt, bool isVN)
         {
@@ -294,9 +416,11 @@ namespace unlock_282
                     chromeDriver.FindElement(By.Name("phone")).SendKeys(sdt);
                     chromeDriver.FindElement(By.XPath("//span[text()='Gửi mã']")).Click();
                 }
+                throw new Exception();
             }
             catch (Exception e)
             {
+                Thread.Sleep(10000);
                 if (chromeDriver.PageSource.Contains("lên ảnh có mặt"))
                 {
                     return false;
@@ -304,14 +428,26 @@ namespace unlock_282
 
                 if (chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
                 {
-                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                    dgvAccounts["status", rowIndex].Value = "Z - Giải oke !!!";
                     throw new Exception();
                 }
-
+                if (chromeDriver.PageSource.Contains("số điện thoại bạn đang cố gắng xác minh"))
+                {
+                    dgvAccounts["status", rowIndex].Value = "Số điện thoại được dùng nhiều lần";
+                    throw new Exception();
+                }
+                if(chromeDriver.PageSource.Contains("Bạn đã yêu cầu quá nhiều mã SMS"))
+                {
+                    dgvAccounts["status", rowIndex].Value = "Yêu cầu quá nhiều sms chặn 24h";
+                    throw new Exception();
+                }
+                if(chromeDriver.PageSource.Contains("Gửi lại mã xác nhận"))
+                {
+                    return true;
+                }
                 dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
                 throw new Exception();
             }
-            return true;
         }
 
         public void GoCheckpointMBasic(string sdt)
@@ -382,7 +518,7 @@ namespace unlock_282
             {
                 if (chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
                 {
-                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                    dgvAccounts["status", rowIndex].Value = "Z - Giải oke !!!";
                     throw new Exception();
                 }
                 dgvAccounts["status", rowIndex].Value = "Không nhập sdt được";
@@ -406,7 +542,7 @@ namespace unlock_282
                 {
                 }
             }
-            dgvAccounts["status", rowIndex].Value = $"Không có mã OTP";
+            dgvAccounts["status", rowIndex].Value = $"Đã nhập xong";
         }
 
         public void NhapAnhWWW()
@@ -415,7 +551,7 @@ namespace unlock_282
             {
 
                 var d = 0;
-                while (!chromeDriver.PageSource.Contains("image/*,image/heif,image/heic") || d > 12)
+                while (!chromeDriver.PageSource.Contains("image/*,image/heif,image/heic") && d < 12)
                 {
                     Thread.Sleep(1000);
                     d++;
@@ -441,17 +577,19 @@ namespace unlock_282
                 }
                 if(chromeDriver.PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn"))
                 {
-                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+                    dgvAccounts["status", rowIndex].Value = "Z - Giải oke !!!";
+                    return;
                 }
                 else
                 {
                     dgvAccounts["status", rowIndex].Value = "Không rõ kết quả";
+                    return;
                 }
             }
             catch (Exception)
             {
             }
-            dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+            dgvAccounts["status", rowIndex].Value = "UP ảnh không thành công";
             return;
         }
 
@@ -551,7 +689,7 @@ namespace unlock_282
                 dgvAccounts["status", rowIndex].Value = "Up CMT";
                 return false;
             }
-            dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
+            dgvAccounts["status", rowIndex].Value = "Z - Giải oke !!!";
             return true;
         }
 

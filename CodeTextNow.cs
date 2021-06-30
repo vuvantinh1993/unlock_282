@@ -43,7 +43,7 @@ namespace unlock_282
             try
             {
                 var i = 0;
-                while(i <= 40)
+                while (i <= 77)
                 {
                     var http = await _httpClient.GetAsync($"?apikey={key}&action=data-request&requestId={_session}");
                     var ress = http.Content.ReadAsStringAsync();

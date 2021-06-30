@@ -13,37 +13,52 @@ namespace unlock_282
    public class ResoveCaptcha
     {
         private string sitekey = "6Lc9qjcUAAAAADTnJq5kJMjN9aD1lxpRLMnCS2TR";
-        private string pageurl = "https://m.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fm.facebook.com%2Flogin.php&_rdr";
+        private string pageurl = "https://www.fbsbx.com/";
         private HttpClient _httpClient;
-        private string key_captcha= "point_ce8116c04f96ef61e9bda31ebc10c877";
+        private string key_captcha= "point_59c4a8da699f90c50577a8e02879bf84";
         private string id_captcha;
 
         public ResoveCaptcha()
         {
-            var _httpClient = new HttpClient() { BaseAddress = new Uri("https://captcha69.com/in.php") };
-
+            _httpClient = new HttpClient() { BaseAddress = new Uri("https://captcha69.com/") };
         }
 
         public async Task SendKeyAsync()
         {
-            var _httpClient = new HttpClient();
-            var httpResponse = await  _httpClient.GetAsync($"?key={key_captcha}&googlekey={sitekey}&pageurl={pageurl}&submit=Send+in.php");
-            var responseStream = await httpResponse.Content.ReadAsStringAsync();
-            id_captcha = JsonConvert.DeserializeObject<JObject>(responseStream).ToString();
+            try
+            {
+                var responseStream = "";
+                while(!responseStream.Contains("OK|"))
+                {
+                    var httpResponse = await  _httpClient.GetAsync($"in.php?key={key_captcha}&googlekey={sitekey}&pageurl={pageurl}&submit=Send+in.php");
+                    responseStream = await httpResponse.Content.ReadAsStringAsync();
+                    id_captcha = responseStream.Replace("OK|", "");
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
 
         public async Task<string> GetToken()
         {
             var i = 0;
+            var responseStream = "";
             var token = "";
-            while (i < 300 && token == "")
+            try
             {
-                var _httpClient = new HttpClient();
-                var httpResponse = await _httpClient.GetAsync($"?key={key_captcha}&id={id_captcha}&submit=GET+res.php");
-                token = await httpResponse.Content.ReadAsStringAsync();
-                Thread.Sleep(5000);
-                i += 5;
+                while (i < 300 && !responseStream.Contains("OK|"))
+                {
+                    var httpResponse = await _httpClient.GetAsync($"res.php?key={key_captcha}&id={id_captcha}&submit=GET+res.php");
+                    responseStream = await httpResponse.Content.ReadAsStringAsync();
+                    Thread.Sleep(5000);
+                    i += 5;
+                }
+                token.Replace("OK|", "");
+            }
+            catch (Exception e)
+            {
             }
             return token;
         }

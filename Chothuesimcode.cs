@@ -46,7 +46,7 @@ namespace unlock_282
             try
             {
                 var i = 0;
-                while(i <= 40)
+                while(i <= 80)
                 {
                     var http = await _httpClient.GetAsync($"?act=code&apik={key}&id={_session}");
                     var ress = http.Content.ReadAsStringAsync();

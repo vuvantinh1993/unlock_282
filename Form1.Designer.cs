@@ -37,26 +37,32 @@ namespace unlock_282
             this.proxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.run = new System.Windows.Forms.Button();
             this.Loaddata = new System.Windows.Forms.Button();
             this.nbrLuong = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.cbStop = new System.Windows.Forms.CheckBox();
             this.ClearAll = new System.Windows.Forms.Button();
             this.opennow = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.CbStopAll = new System.Windows.Forms.CheckBox();
             this.tbkey = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.cbbDichVu = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
+            this.very = new System.Windows.Forms.Button();
+            this.nbrluongProxy = new System.Windows.Forms.NumericUpDown();
+            this.tbapiproxy = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbrluongProxy)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvAccounts
             // 
+            this.dgvAccounts.AllowUserToAddRows = false;
             this.dgvAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -70,7 +76,7 @@ namespace unlock_282
             this.status});
             this.dgvAccounts.Location = new System.Drawing.Point(13, 61);
             this.dgvAccounts.Name = "dgvAccounts";
-            this.dgvAccounts.Size = new System.Drawing.Size(970, 477);
+            this.dgvAccounts.Size = new System.Drawing.Size(826, 477);
             this.dgvAccounts.TabIndex = 0;
             this.dgvAccounts.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAccounts_ColumnHeaderMouseClick);
             this.dgvAccounts.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvAccounts_RowPrePaint);
@@ -120,19 +126,9 @@ namespace unlock_282
             this.status.HeaderText = "status";
             this.status.Name = "status";
             // 
-            // run
-            // 
-            this.run.Location = new System.Drawing.Point(528, 8);
-            this.run.Name = "run";
-            this.run.Size = new System.Drawing.Size(93, 41);
-            this.run.TabIndex = 1;
-            this.run.Text = "Giải 282 m.fb";
-            this.run.UseVisualStyleBackColor = true;
-            this.run.Click += new System.EventHandler(this.run_Click);
-            // 
             // Loaddata
             // 
-            this.Loaddata.Location = new System.Drawing.Point(908, 6);
+            this.Loaddata.Location = new System.Drawing.Point(751, 29);
             this.Loaddata.Name = "Loaddata";
             this.Loaddata.Size = new System.Drawing.Size(75, 23);
             this.Loaddata.TabIndex = 2;
@@ -142,7 +138,7 @@ namespace unlock_282
             // 
             // nbrLuong
             // 
-            this.nbrLuong.Location = new System.Drawing.Point(65, 16);
+            this.nbrLuong.Location = new System.Drawing.Point(65, 10);
             this.nbrLuong.Minimum = new decimal(new int[] {
             1,
             0,
@@ -160,7 +156,7 @@ namespace unlock_282
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 22);
+            this.label1.Location = new System.Drawing.Point(13, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 4;
@@ -178,7 +174,7 @@ namespace unlock_282
             // 
             // ClearAll
             // 
-            this.ClearAll.Location = new System.Drawing.Point(908, 34);
+            this.ClearAll.Location = new System.Drawing.Point(670, 32);
             this.ClearAll.Name = "ClearAll";
             this.ClearAll.Size = new System.Drawing.Size(75, 23);
             this.ClearAll.TabIndex = 6;
@@ -188,27 +184,19 @@ namespace unlock_282
             // 
             // opennow
             // 
-            this.opennow.Location = new System.Drawing.Point(379, 12);
+            this.opennow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.opennow.ForeColor = System.Drawing.Color.Blue;
+            this.opennow.Location = new System.Drawing.Point(322, 15);
             this.opennow.Name = "opennow";
             this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
             this.opennow.Text = "Giải 282 www";
-            this.opennow.UseVisualStyleBackColor = true;
+            this.opennow.UseVisualStyleBackColor = false;
             this.opennow.Click += new System.EventHandler(this.opennow_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(712, 8);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 41);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Bỏ sđt sau 282";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(627, 9);
+            this.button2.Location = new System.Drawing.Point(487, 15);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(79, 37);
             this.button2.TabIndex = 9;
@@ -216,20 +204,10 @@ namespace unlock_282
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(308, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(66, 17);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "OTP sim";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // CbStopAll
             // 
             this.CbStopAll.AutoSize = true;
-            this.CbStopAll.Location = new System.Drawing.Point(231, 6);
+            this.CbStopAll.Location = new System.Drawing.Point(180, 8);
             this.CbStopAll.Name = "CbStopAll";
             this.CbStopAll.Size = new System.Drawing.Size(71, 17);
             this.CbStopAll.TabIndex = 11;
@@ -238,14 +216,14 @@ namespace unlock_282
             // 
             // tbkey
             // 
-            this.tbkey.Location = new System.Drawing.Point(227, 26);
+            this.tbkey.Location = new System.Drawing.Point(211, 32);
             this.tbkey.Name = "tbkey";
-            this.tbkey.Size = new System.Drawing.Size(146, 20);
+            this.tbkey.Size = new System.Drawing.Size(105, 20);
             this.tbkey.TabIndex = 12;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(801, 9);
+            this.button3.Location = new System.Drawing.Point(572, 13);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(83, 41);
             this.button3.TabIndex = 13;
@@ -260,37 +238,112 @@ namespace unlock_282
             "CTSC",
             "OTPSIM",
             "CODETEXTNOW"});
-            this.cbbDichVu.Location = new System.Drawing.Point(127, 24);
+            this.cbbDichVu.Location = new System.Drawing.Point(127, 32);
             this.cbbDichVu.Name = "cbbDichVu";
-            this.cbbDichVu.Size = new System.Drawing.Size(94, 21);
+            this.cbbDichVu.Size = new System.Drawing.Size(78, 21);
             this.cbbDichVu.TabIndex = 14;
             this.cbbDichVu.Text = "CTSC";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Số lượng";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(65, 33);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(55, 20);
+            this.numericUpDown1.TabIndex = 15;
+            // 
+            // button1
+            // 
+            this.button1.ForeColor = System.Drawing.Color.Red;
+            this.button1.Location = new System.Drawing.Point(670, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(92, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Tắt Chrome";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // very
+            // 
+            this.very.BackColor = System.Drawing.Color.LightGreen;
+            this.very.ForeColor = System.Drawing.Color.Red;
+            this.very.Location = new System.Drawing.Point(845, 15);
+            this.very.Name = "very";
+            this.very.Size = new System.Drawing.Size(93, 37);
+            this.very.TabIndex = 1;
+            this.very.Text = "Very";
+            this.very.UseVisualStyleBackColor = false;
+            this.very.Click += new System.EventHandler(this.run_Click);
+            // 
+            // nbrluongProxy
+            // 
+            this.nbrluongProxy.Location = new System.Drawing.Point(946, 25);
+            this.nbrluongProxy.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nbrluongProxy.Name = "nbrluongProxy";
+            this.nbrluongProxy.Size = new System.Drawing.Size(42, 20);
+            this.nbrluongProxy.TabIndex = 18;
+            this.nbrluongProxy.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // tbapiproxy
+            // 
+            this.tbapiproxy.Location = new System.Drawing.Point(845, 61);
+            this.tbapiproxy.Multiline = true;
+            this.tbapiproxy.Name = "tbapiproxy";
+            this.tbapiproxy.Size = new System.Drawing.Size(165, 301);
+            this.tbapiproxy.TabIndex = 19;
+            this.tbapiproxy.Text = "260e5a5ce5b17b8ac9d7f43c621e9cab";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 540);
+            this.ClientSize = new System.Drawing.Size(1017, 540);
+            this.Controls.Add(this.tbapiproxy);
+            this.Controls.Add(this.nbrluongProxy);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.cbbDichVu);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.tbkey);
             this.Controls.Add(this.CbStopAll);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
             this.Controls.Add(this.cbStop);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nbrLuong);
             this.Controls.Add(this.Loaddata);
-            this.Controls.Add(this.run);
+            this.Controls.Add(this.very);
             this.Controls.Add(this.dgvAccounts);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbrluongProxy)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,20 +359,23 @@ namespace unlock_282
         private System.Windows.Forms.DataGridViewTextBoxColumn proxy;
         private System.Windows.Forms.DataGridViewTextBoxColumn note;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.Button run;
         private System.Windows.Forms.Button Loaddata;
         private System.Windows.Forms.NumericUpDown nbrLuong;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbStop;
         private System.Windows.Forms.Button ClearAll;
         private System.Windows.Forms.Button opennow;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox CbStopAll;
         private System.Windows.Forms.TextBox tbkey;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox cbbDichVu;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button very;
+        private System.Windows.Forms.NumericUpDown nbrluongProxy;
+        private System.Windows.Forms.TextBox tbapiproxy;
     }
 }
 

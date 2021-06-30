@@ -68,3 +68,4 @@ C:\Users\TINHVU\Desktop\too\unlock_282\obj\Debug\unlock_282.csproj.CoreCompileIn
 C:\Users\TINHVU\Desktop\too\unlock_282\obj\Debug\unlock_282.csproj.CopyComplete
 C:\Users\TINHVU\Desktop\too\unlock_282\obj\Debug\unlock_282.exe
 C:\Users\TINHVU\Desktop\too\unlock_282\obj\Debug\unlock_282.pdb
+C:\Users\TINHVU\Desktop\too\unlock_282\bin\Debug\TMProxyHelper.dll
