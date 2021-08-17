@@ -220,6 +220,7 @@ namespace unlock_282
             this.tbkey.Name = "tbkey";
             this.tbkey.Size = new System.Drawing.Size(105, 20);
             this.tbkey.TabIndex = 12;
+            this.tbkey.Text = "f7f51ab4f9556ae39d68a4f1d3eb3869";
             // 
             // button3
             // 
@@ -312,7 +313,6 @@ namespace unlock_282
             this.tbapiproxy.Name = "tbapiproxy";
             this.tbapiproxy.Size = new System.Drawing.Size(165, 301);
             this.tbapiproxy.TabIndex = 19;
-            this.tbapiproxy.Text = "260e5a5ce5b17b8ac9d7f43c621e9cab";
             // 
             // Form1
             // 
