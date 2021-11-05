@@ -43,21 +43,16 @@ namespace unlock_282
             this.cbStop = new System.Windows.Forms.CheckBox();
             this.ClearAll = new System.Windows.Forms.Button();
             this.opennow = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.CbStopAll = new System.Windows.Forms.CheckBox();
             this.tbkey = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.cbbDichVu = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
-            this.very = new System.Windows.Forms.Button();
-            this.nbrluongProxy = new System.Windows.Forms.NumericUpDown();
             this.tbapiproxy = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nbrluongProxy)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvAccounts
@@ -194,16 +189,6 @@ namespace unlock_282
             this.opennow.UseVisualStyleBackColor = false;
             this.opennow.Click += new System.EventHandler(this.opennow_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(487, 15);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(79, 37);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Giải 282 mbasic";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // CbStopAll
             // 
             this.CbStopAll.AutoSize = true;
@@ -221,16 +206,6 @@ namespace unlock_282
             this.tbkey.Size = new System.Drawing.Size(105, 20);
             this.tbkey.TabIndex = 12;
             this.tbkey.Text = "f7f51ab4f9556ae39d68a4f1d3eb3869";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(572, 13);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(83, 41);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "Check 282";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // cbbDichVu
             // 
@@ -277,35 +252,6 @@ namespace unlock_282
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // very
-            // 
-            this.very.BackColor = System.Drawing.Color.LightGreen;
-            this.very.ForeColor = System.Drawing.Color.Red;
-            this.very.Location = new System.Drawing.Point(845, 15);
-            this.very.Name = "very";
-            this.very.Size = new System.Drawing.Size(93, 37);
-            this.very.TabIndex = 1;
-            this.very.Text = "Very";
-            this.very.UseVisualStyleBackColor = false;
-            this.very.Click += new System.EventHandler(this.run_Click);
-            // 
-            // nbrluongProxy
-            // 
-            this.nbrluongProxy.Location = new System.Drawing.Point(946, 25);
-            this.nbrluongProxy.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nbrluongProxy.Name = "nbrluongProxy";
-            this.nbrluongProxy.Size = new System.Drawing.Size(42, 20);
-            this.nbrluongProxy.TabIndex = 18;
-            this.nbrluongProxy.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
             // tbapiproxy
             // 
             this.tbapiproxy.Location = new System.Drawing.Point(845, 61);
@@ -320,22 +266,18 @@ namespace unlock_282
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1017, 540);
             this.Controls.Add(this.tbapiproxy);
-            this.Controls.Add(this.nbrluongProxy);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.cbbDichVu);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.tbkey);
             this.Controls.Add(this.CbStopAll);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
             this.Controls.Add(this.cbStop);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nbrLuong);
             this.Controls.Add(this.Loaddata);
-            this.Controls.Add(this.very);
             this.Controls.Add(this.dgvAccounts);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -343,7 +285,6 @@ namespace unlock_282
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nbrluongProxy)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,16 +306,12 @@ namespace unlock_282
         private System.Windows.Forms.CheckBox cbStop;
         private System.Windows.Forms.Button ClearAll;
         private System.Windows.Forms.Button opennow;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox CbStopAll;
         private System.Windows.Forms.TextBox tbkey;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox cbbDichVu;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button very;
-        private System.Windows.Forms.NumericUpDown nbrluongProxy;
         private System.Windows.Forms.TextBox tbapiproxy;
     }
 }
