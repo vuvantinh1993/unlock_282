@@ -25,6 +25,7 @@ namespace unlock_282
         public IWebDriver[] chromeDrivers = new IWebDriver[10000];
         public bool isDESC = true;
         public bool checkserver = false;
+        public List<string> listProxies = new List<string>();
 
         public Form1()
         {
@@ -219,14 +220,14 @@ namespace unlock_282
                     //    str = tmppro.ResetProxy();
                     //}
 
-                    var str2 = tmppro.GetCurrentProxy();
-                    while (str2.Contains("Lỗi"))
-                    {
-                        dgvAccounts["status", rowIndex].Value = str2;
-                        Thread.Sleep(2000);
-                        str2 = tmppro.GetCurrentProxy();
-                    }
-                    ip = str2;
+                    //var str2 = tmppro.GetCurrentProxy();
+                    //while (str2.Contains("Lỗi"))
+                    //{
+                    //    dgvAccounts["status", rowIndex].Value = str2;
+                    //    Thread.Sleep(2000);
+                    //    str2 = tmppro.GetCurrentProxy();
+                    //}
+                    //ip = str2;
                 }
                 else
                 {
@@ -345,7 +346,6 @@ namespace unlock_282
             }
             return new Point(new Random().Next(1, 20) * 30, new Random().Next(1, 20) * 30);
         }
-
 
         private void Loaddata_Click(object sender, EventArgs e)
         {
@@ -592,106 +592,6 @@ namespace unlock_282
             var listAccTds = (BindingList<ModelAccount>)dgvAccounts.DataSource;
             Common.LuuThongTinTaiKhoanKhiKetThuc(listAccTds);
         }
-
-        
-
-        private void DenLaySDT(int rowIndex, FaceBook facebook)
-        {
-            
-            dgvAccounts["status", rowIndex].Value = "Đăng Nhập Facebook";
-            facebook.DangNhap();
-            
-        }
-
-
-        private void LayLaiMaOTP(int rowIndex, FaceBook facebook)
-        {
-            try
-            {
-                dgvAccounts["status", rowIndex].Value = "Lấy lại otp";
-                facebook.LayLaiMaCode();
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-            return;
-        }
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        this.i = 0;
-        //        var soluong = (int)nbrLuong.Value;
-        //        int iThread = 0;
-        //        int Multi_Thread = soluong;
-        //        int soDong = ((BindingList<ModelAccount>)dgvAccounts.DataSource).Count();
-
-        //        new Thread(delegate ()
-        //        {
-        //            while (i < soDong)
-        //            {
-        //                bool flag = iThread < Multi_Thread;
-        //                if (flag)
-        //                {
-        //                    Interlocked.Increment(ref iThread);
-        //                    int row = this.i;
-        //                    Thread.Sleep(1000);
-        //                    new Thread(async delegate ()
-        //                    {
-        //                        dgvAccounts["status", row].Value = "Đắt đầu!";
-        //                        Thread.Sleep(500);
-        //                        if (dgvAccounts["uid", row].Value != null && dgvAccounts["uid", row].Value.ToString() != "")
-        //                        {
-        //                            var j = row;
-        //                            CheckStop(j);
-
-        //                            try
-        //                            {
-        //                                dgvAccounts["status", row].Value = "Khởi tạo Chrome";
-        //                                TaoChrome(j,0, true);
-        //                                var facebook = new FaceBook(dgvAccounts, j, chromeDrivers[j]);
-
-        //                                dgvAccounts["status", row].Value = "Đăng Nhập Facebook";
-        //                                facebook.DangNhap2();
-
-        //                                dgvAccounts["status", j].Value = "đi xóa sđt";
-        //                                facebook.XoaSDT282();
-
-
-        //                                throw new Exception();
-        //                            }
-        //                            catch (Exception e2)
-        //                            {
-        //                                try
-        //                                {
-        //                                    chromeDrivers[j].Manage().Cookies.DeleteAllCookies();
-        //                                    chromeDrivers[j].Quit();
-        //                                }
-        //                                catch (Exception)
-        //                                {
-        //                                }
-        //                                Interlocked.Decrement(ref iThread);
-        //                                return;
-        //                            }
-        //                        }
-        //                        Interlocked.Decrement(ref iThread);
-        //                    }).Start();
-        //                    i++;
-        //                }
-        //                else
-        //                {
-        //                    Thread.Sleep(2000);
-        //                }
-        //            }
-        //        }).Start();
-        //    }
-        //    catch (Exception e3)
-        //    {
-        //    }
-        //}
-
 
         private void opennow_Click(object sender, EventArgs e)
         {

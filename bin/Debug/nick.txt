@@ -1,1 +1,1 @@
-[{"stt":1,"uid":"100026975500287","pass":"pass040721","_2fa":"BAGD6PPPVYQ7FI6G4D2X2DI75IVUHHRZ","proxy":"103.121.89.89:5470:vuvantinh171193:H6NLxF","note":"chưa chạy","status":"Đăng nhập Fb bằng Uid và Pass"}]
+[{"stt":1,"uid":"100064944231545","pass":"tinhvu123@#$","_2fa":"56HULRERM2SB7NN3XVX7ZBLPRIL2RUZX","proxy":"45.77.170.55:49059:user49059:hY9BOxsS0m","note":"chưa chạy","status":null}]

@@ -10,6 +10,11 @@ namespace unlock_282
     {
     }
 
+    public class ListProxy
+    {
+        public string proxy { get; set; }
+    }
+
     public class ModelAccount
     {
         public int stt { get; set; }

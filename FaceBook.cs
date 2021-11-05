@@ -16,10 +16,6 @@ namespace unlock_282
         private DataGridView dgvAccounts;
         private int rowIndex;
         public IWebDriver chromeDriver;
-        private bool chidangnhapbanguidpass;
-        private string tokenfb;
-        private string proxy;
-        private string _urlMLogin { get => "https://m.facebook.com/login.php"; }
 
         public FaceBook(DataGridView dgvAccounts, int rowIndex, IWebDriver chromeDriver)
         {
@@ -39,6 +35,11 @@ namespace unlock_282
             {
                 dgvAccounts["status", rowIndex].Value = "Đăng nhập faceBook thất bại";
                 throw new Exception($"Đăng nhập{e.Message}");
+            }
+            if(chromeDriver.PageSource.Contains("Chúng tôi đã xem xét lại và không hủy bỏ quyết định này.") || chromeDriver.PageSource.Contains("Chúng tôi không thể xem xét lại quyết định này vì tài khoản của bạn đã bị vô hiệu hóa từ lâu."))
+            {
+                dgvAccounts["status", rowIndex].Value = "Die hẳn";
+                throw new Exception();
             }
 
             if(chromeDriver.Url.Contains("referrer=disabled_checkpoint"))
@@ -876,6 +877,10 @@ namespace unlock_282
                 //Thread.Sleep(1000);
                 try
                 {
+                    if(chromeDriver.PageSource.Contains("Chúng tôi đã xem xét lại và không hủy bỏ quyết định này.") || chromeDriver.PageSource.Contains("Chúng tôi không thể xem xét lại quyết định này vì tài khoản của bạn đã bị vô hiệu hóa từ lâu."))
+                    {
+                        return true;
+                    }
                     chromeDriver.FindElement(By.Id("checkpointSubmitButton-actual-button")).Click();
                     Thread.Sleep(1000);
                     chromeDriver.FindElement(By.Id("checkpointSubmitButton-actual-button")).Click();
@@ -886,6 +891,10 @@ namespace unlock_282
                 }
                 catch (Exception)
                 {
+                }
+                if (chromeDriver.PageSource.Contains("Chúng tôi đã xem xét lại và không hủy bỏ quyết định này.") || chromeDriver.PageSource.Contains("Chúng tôi không thể xem xét lại quyết định này vì tài khoản của bạn đã bị vô hiệu hóa từ lâu."))
+                {
+                    return true;
                 }
                 try
                 {
