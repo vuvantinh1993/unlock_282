@@ -1,1 +1,1 @@
-[{"stt":1,"uid":"100064944231545","pass":"tinhvu123@#$","_2fa":"56HULRERM2SB7NN3XVX7ZBLPRIL2RUZX","proxy":"45.77.170.55:49059:user49059:hY9BOxsS0m","note":"chưa chạy","status":null}]
+[{"stt":1,"uid":"100068619425779","pass":"lijiwjir4333","_2fa":"5ENHLYYT5B4RSVDZOSMT5FAR2IMJLPYT","proxy":"103.121.89.89:5991:vuvantinh171193:H6NLxF","note":"chưa chạy","status":null},{"stt":2,"uid":"100064944231545","pass":"tinhvu123@#$","_2fa":"56HULRERM2SB7NN3XVX7ZBLPRIL2RUZX","proxy":"103.121.89.89:5991:vuvantinh171193:H6NLxF","note":"chưa chạy","status":"A - Lỗi mở profile"}]

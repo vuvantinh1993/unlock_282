@@ -44,12 +44,9 @@ namespace unlock_282
             this.ClearAll = new System.Windows.Forms.Button();
             this.opennow = new System.Windows.Forms.Button();
             this.CbStopAll = new System.Windows.Forms.CheckBox();
-            this.tbkey = new System.Windows.Forms.TextBox();
-            this.cbbDichVu = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
-            this.tbapiproxy = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -143,7 +140,7 @@ namespace unlock_282
             this.nbrLuong.Size = new System.Drawing.Size(55, 20);
             this.nbrLuong.TabIndex = 3;
             this.nbrLuong.Value = new decimal(new int[] {
-            22,
+            5,
             0,
             0,
             0});
@@ -160,7 +157,7 @@ namespace unlock_282
             // cbStop
             // 
             this.cbStop.AutoSize = true;
-            this.cbStop.Location = new System.Drawing.Point(126, 8);
+            this.cbStop.Location = new System.Drawing.Point(539, 32);
             this.cbStop.Name = "cbStop";
             this.cbStop.Size = new System.Drawing.Size(48, 17);
             this.cbStop.TabIndex = 5;
@@ -181,44 +178,23 @@ namespace unlock_282
             // 
             this.opennow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.opennow.ForeColor = System.Drawing.Color.Blue;
-            this.opennow.Location = new System.Drawing.Point(322, 15);
+            this.opennow.Location = new System.Drawing.Point(272, 12);
             this.opennow.Name = "opennow";
             this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
-            this.opennow.Text = "Giải 282 www";
+            this.opennow.Text = "Check Pro5";
             this.opennow.UseVisualStyleBackColor = false;
             this.opennow.Click += new System.EventHandler(this.opennow_Click);
             // 
             // CbStopAll
             // 
             this.CbStopAll.AutoSize = true;
-            this.CbStopAll.Location = new System.Drawing.Point(180, 8);
+            this.CbStopAll.Location = new System.Drawing.Point(593, 32);
             this.CbStopAll.Name = "CbStopAll";
             this.CbStopAll.Size = new System.Drawing.Size(71, 17);
             this.CbStopAll.TabIndex = 11;
             this.CbStopAll.Text = "dừng hẳn";
             this.CbStopAll.UseVisualStyleBackColor = true;
-            // 
-            // tbkey
-            // 
-            this.tbkey.Location = new System.Drawing.Point(211, 32);
-            this.tbkey.Name = "tbkey";
-            this.tbkey.Size = new System.Drawing.Size(105, 20);
-            this.tbkey.TabIndex = 12;
-            this.tbkey.Text = "f7f51ab4f9556ae39d68a4f1d3eb3869";
-            // 
-            // cbbDichVu
-            // 
-            this.cbbDichVu.FormattingEnabled = true;
-            this.cbbDichVu.Items.AddRange(new object[] {
-            "CTSC",
-            "OTPSIM",
-            "CODETEXTNOW"});
-            this.cbbDichVu.Location = new System.Drawing.Point(127, 32);
-            this.cbbDichVu.Name = "cbbDichVu";
-            this.cbbDichVu.Size = new System.Drawing.Size(78, 21);
-            this.cbbDichVu.TabIndex = 14;
-            this.cbbDichVu.Text = "CTSC";
             // 
             // label2
             // 
@@ -240,6 +216,11 @@ namespace unlock_282
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(55, 20);
             this.numericUpDown1.TabIndex = 15;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // button1
             // 
@@ -252,25 +233,14 @@ namespace unlock_282
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tbapiproxy
-            // 
-            this.tbapiproxy.Location = new System.Drawing.Point(845, 61);
-            this.tbapiproxy.Multiline = true;
-            this.tbapiproxy.Name = "tbapiproxy";
-            this.tbapiproxy.Size = new System.Drawing.Size(165, 301);
-            this.tbapiproxy.TabIndex = 19;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1017, 540);
-            this.Controls.Add(this.tbapiproxy);
+            this.ClientSize = new System.Drawing.Size(854, 540);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.cbbDichVu);
-            this.Controls.Add(this.tbkey);
             this.Controls.Add(this.CbStopAll);
             this.Controls.Add(this.opennow);
             this.Controls.Add(this.ClearAll);
@@ -307,12 +277,9 @@ namespace unlock_282
         private System.Windows.Forms.Button ClearAll;
         private System.Windows.Forms.Button opennow;
         private System.Windows.Forms.CheckBox CbStopAll;
-        private System.Windows.Forms.TextBox tbkey;
-        private System.Windows.Forms.ComboBox cbbDichVu;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox tbapiproxy;
     }
 }
 

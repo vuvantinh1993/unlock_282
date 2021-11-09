@@ -56,16 +56,22 @@ namespace unlock_282
             }
 
 
-            chromeDriver.Url = "https://www.facebook.com/";
-            Thread.Sleep(1000);
+            //chromeDriver.Url = "https://www.facebook.com/";
+            //Thread.Sleep(1000);
 
-            try
-            {
-                chromeDriver.FindElements(By.XPath("//span[text()='Request a Review']"))[1].Click();
-            }
-            catch (Exception)
-            {
+            //try
+            //{
+            //    chromeDriver.FindElements(By.XPath("//span[text()='Request a Review']"))[1].Click();
+            //}
+            //catch (Exception)
+            //{
 
+            //}
+            chromeDriver.Url = "https://www.facebook.com/pages/creation/?ref_type=comet_home";
+            if (chromeDriver.PageSource.Contains("Người theo dõi") || chromeDriver.PageSource.Contains("Followers"))
+            {
+                dgvAccounts["status", rowIndex].Value = ReturnStatus();
+                throw new Exception();
             }
 
             if (chromeDriver.Url.Contains("1501092823525282"))
@@ -97,6 +103,12 @@ namespace unlock_282
                     chromeDriver.Manage().Cookies.AddCookie(new OpenQA.Selenium.Cookie(item.Split('=')[0], item.Split('=')[1]));
                 }
             }
+        }
+
+        public string ReturnStatus()
+        {
+            var list = new List<string>() { "Được 1 em, ngon - oke", "Thêm 1 em nữa - thơm - oke", "Lại được 1 em Pro5 nữa - oke", "Cứ 100 em như này là giàu - oke", "Lại tiếp tục 1 em nữa này - oke", "Thơm 1 em nữa - oke" };
+            return list[new Random().Next(list.Count())] ; 
         }
 
         public bool DangNhapVery()
