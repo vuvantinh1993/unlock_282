@@ -47,6 +47,7 @@ namespace unlock_282
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
+            this.tbKeyAPI = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -66,10 +67,11 @@ namespace unlock_282
             this.proxy,
             this.note,
             this.status});
-            this.dgvAccounts.Location = new System.Drawing.Point(13, 61);
+            this.dgvAccounts.Location = new System.Drawing.Point(13, 80);
             this.dgvAccounts.Name = "dgvAccounts";
-            this.dgvAccounts.Size = new System.Drawing.Size(826, 477);
+            this.dgvAccounts.Size = new System.Drawing.Size(826, 458);
             this.dgvAccounts.TabIndex = 0;
+            this.dgvAccounts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAccounts_CellContentClick);
             this.dgvAccounts.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAccounts_ColumnHeaderMouseClick);
             this.dgvAccounts.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvAccounts_RowPrePaint);
             this.dgvAccounts.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvAccounts_MouseClick);
@@ -120,7 +122,7 @@ namespace unlock_282
             // 
             // Loaddata
             // 
-            this.Loaddata.Location = new System.Drawing.Point(751, 29);
+            this.Loaddata.Location = new System.Drawing.Point(591, 30);
             this.Loaddata.Name = "Loaddata";
             this.Loaddata.Size = new System.Drawing.Size(75, 23);
             this.Loaddata.TabIndex = 2;
@@ -140,7 +142,7 @@ namespace unlock_282
             this.nbrLuong.Size = new System.Drawing.Size(55, 20);
             this.nbrLuong.TabIndex = 3;
             this.nbrLuong.Value = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -157,7 +159,7 @@ namespace unlock_282
             // cbStop
             // 
             this.cbStop.AutoSize = true;
-            this.cbStop.Location = new System.Drawing.Point(539, 32);
+            this.cbStop.Location = new System.Drawing.Point(379, 33);
             this.cbStop.Name = "cbStop";
             this.cbStop.Size = new System.Drawing.Size(48, 17);
             this.cbStop.TabIndex = 5;
@@ -166,7 +168,7 @@ namespace unlock_282
             // 
             // ClearAll
             // 
-            this.ClearAll.Location = new System.Drawing.Point(670, 32);
+            this.ClearAll.Location = new System.Drawing.Point(510, 33);
             this.ClearAll.Name = "ClearAll";
             this.ClearAll.Size = new System.Drawing.Size(75, 23);
             this.ClearAll.TabIndex = 6;
@@ -178,18 +180,18 @@ namespace unlock_282
             // 
             this.opennow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.opennow.ForeColor = System.Drawing.Color.Blue;
-            this.opennow.Location = new System.Drawing.Point(272, 12);
+            this.opennow.Location = new System.Drawing.Point(699, 16);
             this.opennow.Name = "opennow";
             this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
-            this.opennow.Text = "Check Pro5";
+            this.opennow.Text = "Cheat";
             this.opennow.UseVisualStyleBackColor = false;
             this.opennow.Click += new System.EventHandler(this.opennow_Click);
             // 
             // CbStopAll
             // 
             this.CbStopAll.AutoSize = true;
-            this.CbStopAll.Location = new System.Drawing.Point(593, 32);
+            this.CbStopAll.Location = new System.Drawing.Point(433, 33);
             this.CbStopAll.Name = "CbStopAll";
             this.CbStopAll.Size = new System.Drawing.Size(71, 17);
             this.CbStopAll.TabIndex = 11;
@@ -225,7 +227,7 @@ namespace unlock_282
             // button1
             // 
             this.button1.ForeColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(670, 6);
+            this.button1.Location = new System.Drawing.Point(510, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 23);
             this.button1.TabIndex = 17;
@@ -233,11 +235,20 @@ namespace unlock_282
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // tbKeyAPI
+            // 
+            this.tbKeyAPI.Location = new System.Drawing.Point(159, 6);
+            this.tbKeyAPI.Multiline = true;
+            this.tbKeyAPI.Name = "tbKeyAPI";
+            this.tbKeyAPI.Size = new System.Drawing.Size(202, 68);
+            this.tbKeyAPI.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 540);
+            this.Controls.Add(this.tbKeyAPI);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown1);
@@ -280,6 +291,7 @@ namespace unlock_282
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tbKeyAPI;
     }
 }
 

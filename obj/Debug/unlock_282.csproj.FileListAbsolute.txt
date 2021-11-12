@@ -68,3 +68,5 @@ C:\Users\TINHVU\Desktop\unlock_282\bin\Debug\Check_Pro5.exe
 C:\Users\TINHVU\Desktop\unlock_282\bin\Debug\Check_Pro5.pdb
 C:\Users\TINHVU\Desktop\unlock_282\obj\Debug\Check_Pro5.exe
 C:\Users\TINHVU\Desktop\unlock_282\obj\Debug\Check_Pro5.pdb
+C:\Users\TINHVU\Desktop\unlock_282\bin\Debug\System.CodeDom.dll
+C:\Users\TINHVU\Desktop\unlock_282\bin\Debug\System.CodeDom.xml

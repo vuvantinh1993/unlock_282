@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>unlock_282</RootNamespace>
     <AssemblyName>Check_Pro5</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -42,7 +42,11 @@
       <HintPath>packages\Otp.NET.1.2.2\lib\net45\Otp.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.CodeDom.6.0.0\lib\net461\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2FA.cs" />
+    <Compile Include="Adapter.cs" />
     <Compile Include="CodeTextNow.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="FaceBook.cs" />
@@ -81,6 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolveCaptcha.cs" />
     <Compile Include="ResoveCaptcha.cs" />
+    <Compile Include="TMPProxy.cs" />
     <Compile Include="TMproxy.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

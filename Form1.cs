@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -94,64 +95,39 @@ namespace unlock_282
             dgvAccounts["status", rowIndex].Value = "Huỷ bỏ tạm dừng tiếp tục đi làm";
         }
 
-        private void TaoChrome(int rowIndex, int profileNew, bool creatNewProfile = false, bool isUAPhone = false)
+        private async 
+        Task
+        TaoChrome(int rowIndex, int profileNew, bool creatNewProfile = false, bool isUAPhone = false)
         {
             ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
             ChromeOptions chromeOptions = new ChromeOptions { };
+            var dgvAccs = dgvAccounts;
 
-
-            var prox = dgvAccounts["proxy", rowIndex].Value;
-            var username = "";
-            var pass = "";
-            if (prox != null && prox.ToString() != "")
+            var proxy2 = "";
+            var k = 0;
+            var tmp = new TMPProxy();
+            var apikey = GetKeyAPI(rowIndex);
+            while (proxy2 == "")
             {
-                var ip = "";
-                if (prox.ToString().Split(':').Count() == 1)
+                k++;
+                dgvAccs["status", rowIndex].Value = $"Đang đi lấy Proxy {k}";
+                Thread.Sleep(2000);
+                
+                proxy2 = await tmp.GetNewProxyAsync(apikey);
+                if (proxy2 != "")
                 {
-                    var tmppro = new TMproxy(prox.ToString());
+                    dgvAccs["status", rowIndex].Value = $"Lấy được proxy : {proxy2}";
+                    break;
                 }
-                else
-                {
-                    var proxsplit = dgvAccounts["proxy", rowIndex].Value.ToString().Split(':');
-                    ip = $"{proxsplit[0]}:{proxsplit[1]}";
-                    username = proxsplit[2];
-                    pass = proxsplit[3];
-                    chromeOptions.AddExtension("extension_2_0_0_0.crx");
-                    chromeOptions.AddArgument(string.Format("--proxy-server={0}", ip));
-                }
-
             }
-
+            chromeOptions.AddExtension("0.1.5_0.crx");
+            Proxy proxy = new Proxy();
+            proxy.Kind = ProxyKind.Manual;
+            proxy.IsAutoDetect = false;
+            proxy.SslProxy = proxy2;
+            chromeOptions.Proxy = proxy;
+            chromeOptions.AddArgument("ignore-certificate-errors");
             var setup = SetUpChrome(rowIndex, chromeDriverService, chromeOptions, profileNew, creatNewProfile, isUAPhone);
-            if (setup && prox != null && prox.ToString() != "")
-            {
-                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(username))
-                {
-                    chromeDrivers[rowIndex].Url = "chrome-extension://ggmdpepbjljkkkdaklfihhngmmgmpggp/options.html";
-                    chromeDrivers[rowIndex].Navigate();
-                    chromeDrivers[rowIndex].FindElement(By.Id("login")).Clear();
-                    chromeDrivers[rowIndex].FindElement(By.Id("login")).SendKeys(username);
-                    chromeDrivers[rowIndex].FindElement(By.Id("password")).Clear();
-                    chromeDrivers[rowIndex].FindElement(By.Id("password")).SendKeys(pass);
-                    chromeDrivers[rowIndex].FindElement(By.Id("retry")).Clear();
-                    chromeDrivers[rowIndex].FindElement(By.Id("retry")).SendKeys("2");
-                    chromeDrivers[rowIndex].FindElement(By.Id("save")).Click();
-                }
-                string originalWindow = chromeDrivers[rowIndex].CurrentWindowHandle;
-                foreach (string window in chromeDrivers[rowIndex].WindowHandles)
-                {
-                    if (originalWindow != window)
-                    {
-                        chromeDrivers[rowIndex].SwitchTo().Window(window);
-                        chromeDrivers[rowIndex].Close();
-                        break;
-                    }
-                }
-                chromeDrivers[rowIndex].SwitchTo().Window(originalWindow);
-                chromeDrivers[rowIndex].Navigate().Refresh();
-            }
-            Thread.Sleep(1000);
-
         }
 
         public bool SetUpChrome(int rowIndex, ChromeDriverService chromeDriverService, ChromeOptions chromeOptions, int profileNew, bool creatNewProfile = false, bool isUAPhone = false)
@@ -169,7 +145,6 @@ namespace unlock_282
                     "--disable-geolocation",
                     "--no-sandbox",
                     "--disable-gpu",
-                    //"--app=https:/m.facebook.com"
                 });
                
                 if (isUAPhone)
@@ -466,7 +441,16 @@ namespace unlock_282
             var listAccTds = (BindingList<ModelAccount>)dgvAccounts.DataSource;
             Common.LuuThongTinTaiKhoanKhiKetThuc(listAccTds);
         }
-
+        private string GetKeyAPI(int rowIndex)
+        {
+            
+            var list = tbKeyAPI.Text.Split(new[] { "\r\n" }, StringSplitOptions.None);
+            if (list == null || list.Count() == 0)
+            {
+                return "";
+            }
+            return list[rowIndex % list.Count()];
+        }
         private void opennow_Click(object sender, EventArgs e)
         {
             try
@@ -494,6 +478,8 @@ namespace unlock_282
 
                                 try
                                 {
+                                    var ho = Common.RandomHo();
+
                                     CheckStop(rowIndex);
                                     if (CbStopAll.Checked)
                                     {
@@ -503,35 +489,31 @@ namespace unlock_282
                                     }
 
                                     dgvAccounts["status", rowIndex].Value = "Khởi tạo Chrome";
-                                    TaoChrome(rowIndex, ran);
+
+                                    ChangeMac();
 
 
-                                    if(dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString() == "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
+                                    await  TaoChrome(rowIndex, ran);
+                                    var dem = Common.RanTenDem();
+                                    if (dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString() == "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
                                     {
                                         throw new Exception();
                                     }
-                                    var facebook = new FaceBook(dgvAccounts, rowIndex, chromeDrivers[rowIndex]);
-
-                                    try
+                                    chromeDrivers[rowIndex].Url = "https://za.zalo.me/v3/verifyv2/pc?token=OMRmmTvmKGvh2_NDtnjGQM08wwNL0ajmCJSv&continue=https%3A%2F%2Fshare-w.in%2Fvifkd7-37468";
+                                    int check = 0;
+                                    while(check < 20)
                                     {
-                                        dgvAccounts["status", rowIndex].Value = "Đăng Nhập Facebook";
-                                        facebook.DangNhap();
+                                        check++;
+                                        if (chromeDrivers[rowIndex].PageSource.Contains("BNB Hyper Rise Whitelist Contest"))
+                                            break;
+                                        if(check == 19)
+                                            throw new Exception();
                                     }
-                                    catch (Exception)
-                                    {
-                                        throw new Exception();
-                                    }
-                                    if (!checkserver)
-                                    {
-                                        dgvAccounts["status", rowIndex].Value = "Đăng nhập thất bại";
-                                        return;
-                                    }
-
-
-
-                                    if (chromeDrivers[rowIndex] == null)
-                                        throw new Exception();
-                                    
+                                    var ten = Common.RanTen();
+                                    chromeDrivers[rowIndex].FindElement(By.Name("sw__login_name")).SendKeys(ho + " " + dem + " " + ten);
+                                    chromeDrivers[rowIndex].FindElement(By.Name("sw__login_email")).SendKeys(Common.ChuyenVKeySangEkey(ho+ten) + new Random().Next(1000) + "@gmail.com");
+                                    chromeDrivers[rowIndex].FindElement(By.Id("sw_login_button")).Click();
+                                    Thread.Sleep(2000);
                                     throw new Exception();
                                 }
                                 catch (Exception)
@@ -571,6 +553,14 @@ namespace unlock_282
             }
         }
 
+        private void ChangeMac()
+        {
+            foreach (var adapter in NetworkInterface.GetAllNetworkInterfaces().Where(a => Adapter.IsValidMac(a.GetPhysicalAddress().GetAddressBytes(), true)).OrderByDescending(a => a.Speed))
+            {
+                var adapter2 = new Adapter(adapter.ToString());
+                adapter2.SetRegistryMac(new Adapter(adapter));
+            }
+        }
         //private void opennow_Click(object sender, EventArgs e)
         //{
         //    try
@@ -579,211 +569,10 @@ namespace unlock_282
         //        var soluong = (int)nbrLuong.Value;
         //        int iThread = 0;
         //        int Multi_Thread = soluong;
-        //        var listAccs = (BindingList<ModelAccount>)dgvAccounts.DataSource;
-        //        var solan = ((BindingList<ModelAccount>)dgvAccounts.DataSource).Count() / Multi_Thread;
-        //        var tasks = new Task[listAccs.Count()];
-        //        var tasksCon = new Task[listAccs.Count()];
-        //        var listTask = new Task[5000];
-        //        var type = cbbDichVu.SelectedItem.ToString();
-
-        //        Task c = new Task(async () =>
-        //        {
-        //            for (int k = 0; k <= solan; k++)
-        //            {
-        //                Thread.Sleep(1000);
-
-        //                for (int i = soluong * k; i < soluong * (k + 1) && i < listAccs.Count(); i++)
-        //                {
-        //                    var rowIndex = i;
-        //                    var profileNew = "";
-        //                    try
-        //                    {
-        //                        CheckStop(rowIndex);
-        //                        if (CbStopAll.Checked)
-        //                        {
-        //                            dgvAccounts["status", rowIndex].Value = "Dừng hẳn !!";
-        //                            return;
-        //                        }
-
-        //                        dgvAccounts["status", rowIndex].Value = "Khởi tạo Chrome";
-        //                        TaoChrome(rowIndex, 0);
-        //                        var facebook = new FaceBook(dgvAccounts, rowIndex, chromeDrivers[rowIndex]);
-
-        //                        tasks[rowIndex] = Task.Run(async () =>
-        //                        {
-        //                            try
-        //                            {
-        //                                try
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Đăng Nhập Facebook";
-        //                                    facebook.DangNhap();
-        //                                }
-        //                                catch (Exception)
-        //                                {
-        //                                    throw new Exception();
-        //                                }
-
-        //                                if (chromeDrivers[rowIndex] == null)
-        //                                    throw new Exception();
-        //                                dgvAccounts["status", rowIndex].Value = "Kiểm tra đã up ảnh chưa";
-        //                                if (chromeDrivers[rowIndex].PageSource.Contains("lên ảnh có mặt"))
-        //                                {
-        //                                    goto GoUpAnh;
-        //                                }
-        //                                if (chromeDrivers[rowIndex].PageSource.Contains("giấy tờ tùy thân"))
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Up CMT";
-        //                                    throw new Exception();
-        //                                    //goto GoUpAnh;
-        //                                }
-        //                                if (chromeDrivers[rowIndex].PageSource.Contains("Kiểm tra bảo mật"))
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Có SĐT cũ";
-        //                                    throw new Exception();
-        //                                }
-
-        //                                if (chromeDrivers[rowIndex].PageSource.Contains("Chúng tôi đã nhận được thông tin của bạn") || chromeDrivers[rowIndex].PageSource.Contains("Thời gian xét duyệt thông tin của bạn có thể dài hơn thường lệ"))
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Giải oke !!!";
-        //                                    throw new Exception();
-        //                                }
-        //                                var issdtVN = true;
-        //                                var otpsim = (ResolveCaptcha)new OtpSim(tbkey.Text);
-
-        //                                if (type == "CTSC")
-        //                                {
-        //                                    otpsim = (ResolveCaptcha)new Chothuesimcode(tbkey.Text);
-        //                                }
-        //                                else if (type == "CODETEXTNOW")
-        //                                {
-        //                                    otpsim = (ResolveCaptcha)new CodeTextNow(tbkey.Text);
-        //                                    issdtVN = false;
-        //                                }
-
-        //                                var sdt = "";
-        //                                var otp = "";
-        //                                try
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Giải captcha";
-        //                                    facebook.GiaiCaptchawww();
-        //                                    var pagesource = chromeDrivers[rowIndex].PageSource;
-        //                                    if (pagesource.Contains("Cập nhật số di động") || pagesource.Contains("Chọn mã quốc gia") || pagesource.Contains("Thêm số di động"))
-        //                                    {
-        //                                        dgvAccounts["status", rowIndex].Value = "Lấy một sô điện thoại";
-        //                                        while (sdt == "")
-        //                                        {
-        //                                            sdt = await otpsim.GetPhone();
-        //                                            Thread.Sleep(3000);
-        //                                        }
-
-        //                                        var giai = facebook.NhapSDTwww(sdt, issdtVN);
-        //                                        if (!giai)
-        //                                            goto GoUpAnh;
-        //                                    }
-        //                                    dgvAccounts["status", rowIndex].Value = "Kiểm tra đã up ảnh chưa 2";
-        //                                    if (chromeDrivers[rowIndex].PageSource.Contains("lên ảnh có mặt"))
-        //                                    {
-        //                                        goto GoUpAnh;
-        //                                    }
-        //                                    if (chromeDrivers[rowIndex].PageSource.Contains("giấy tờ tùy thân"))
-        //                                    {
-        //                                        throw new Exception();
-        //                                    }
-        //                                }
-        //                                catch (Exception)
-        //                                {
-        //                                    throw new Exception();
-        //                                }
-        //                                if (chromeDrivers[rowIndex] == null)
-        //                                    throw new Exception();
-
-        //                                if (sdt == "")
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Không có sdt kết thúc";
-        //                                    throw new Exception();
-        //                                }
-        //                                var m = 0;
-
-        //                                otp = await otpsim.GetCode();
-        //                                while (otp == "" && m < 3)
-        //                                {
-        //                                    m++;
-        //                                    dgvAccounts["status", rowIndex].Value = "Yêu cầu lại mã mới";
-        //                                    try
-        //                                    {
-        //                                        chromeDrivers[rowIndex].FindElement(By.XPath("//div[text()='Gửi lại mã xác nhận']")).Click();
-        //                                    }
-        //                                    catch (Exception)
-        //                                    {
-        //                                    }
-        //                                    otp = await otpsim.GetCode();
-        //                                }
-        //                                if (otp == "")
-        //                                {
-        //                                    dgvAccounts["status", rowIndex].Value = "Không về code";
-        //                                    throw new Exception();
-        //                                }
-        //                                //
-        //                                facebook.NhapOTP(otp);
-        //                            GoUpAnh:
-        //                                facebook.NhapAnhWWW();
-        //                                throw new Exception();
-        //                            }
-        //                            catch (Exception)
-        //                            {
-        //                                try
-        //                                {
-        //                                    ProfileUsed.Remove(profileNew);
-        //                                    chromeDrivers[rowIndex].Manage().Cookies.DeleteAllCookies();
-        //                                    chromeDrivers[rowIndex].Quit();
-        //                                }
-        //                                catch (Exception)
-        //                                {
-        //                                }
-        //                                return;
-        //                            }
-        //                        });
-        //                    }
-        //                    catch (Exception f)
-        //                    {
-        //                        try
-        //                        {
-        //                            ProfileUsed.Remove(profileNew);
-        //                            chromeDrivers[rowIndex].Manage().Cookies.DeleteAllCookies();
-        //                            chromeDrivers[rowIndex].Quit();
-        //                        }
-        //                        catch (Exception)
-        //                        {
-        //                        }
-        //                        return;
-        //                    }
-
-        //                }
-                        
-        //                Task.WaitAll(tasks.Where(x => x != null).ToArray());
-        //                tasks = new Task[listAccs.Count()];
-        //            }
-        //        });
-        //        c.Start();
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //    }
-        //}
-
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        this.i = 0;
-        //        var soluong = (int)nbrLuong.Value;
-        //        int iThread = 0;
-        //        int Multi_Thread = soluong;
         //        int soDong = ((BindingList<ModelAccount>)dgvAccounts.DataSource).Count();
-
-        //        new Thread(delegate ()
+        //        soDong = Convert.ToInt32(numericUpDown1.Value) == 0 ? soDong : Convert.ToInt32(numericUpDown1.Value);
+        //        var proUsed = new List<int>();
+        //        new Thread(async delegate ()
         //        {
         //            while (i < soDong)
         //            {
@@ -791,46 +580,76 @@ namespace unlock_282
         //                if (flag)
         //                {
         //                    Interlocked.Increment(ref iThread);
-        //                    int row = this.i;
-        //                    Thread.Sleep(1000);
+        //                    int rowIndex = this.i;
+        //                    var ran = 0;
+
         //                    new Thread(async delegate ()
         //                    {
-        //                        dgvAccounts["status", row].Value = "Đắt đầu!";
-        //                        Thread.Sleep(500);
-        //                        if (dgvAccounts["uid", row].Value != null && dgvAccounts["uid", row].Value.ToString() != "")
+
+        //                        try
         //                        {
-        //                            var j = row;
-        //                            CheckStop(j);
-        //                            try
+        //                            CheckStop(rowIndex);
+        //                            if (CbStopAll.Checked)
         //                            {
-        //                                dgvAccounts["status", row].Value = "Khởi tạo Chrome";
-        //                                TaoChrome(j,0, true);
-        //                                var facebook = new FaceBook(dgvAccounts, j, chromeDrivers[j]);
-
-        //                                dgvAccounts["status", row].Value = "Đăng Nhập Facebook";
-        //                                facebook.DangNhapMbasic();
-
-        //                                dgvAccounts["status", j].Value = "đi xóa sđt";
-        //                                facebook.XoaSDT282();
-
-
-        //                                throw new Exception();
-        //                            }
-        //                            catch (Exception e2)
-        //                            {
-        //                                try
-        //                                {
-        //                                    chromeDrivers[j].Manage().Cookies.DeleteAllCookies();
-        //                                    chromeDrivers[j].Quit();
-        //                                }
-        //                                catch (Exception)
-        //                                {
-        //                                }
-        //                                Interlocked.Decrement(ref iThread);
+        //                                dgvAccounts["status", rowIndex].Value = "Dừng hẳn !!";
+        //                                this.i = soDong;
         //                                return;
         //                            }
+
+        //                            dgvAccounts["status", rowIndex].Value = "Khởi tạo Chrome";
+        //                            TaoChrome(rowIndex, ran);
+
+
+        //                            if(dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString() == "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
+        //                            {
+        //                                throw new Exception();
+        //                            }
+        //                            var facebook = new FaceBook(dgvAccounts, rowIndex, chromeDrivers[rowIndex]);
+
+        //                            try
+        //                            {
+        //                                dgvAccounts["status", rowIndex].Value = "Đăng Nhập Facebook";
+        //                                facebook.DangNhap();
+        //                            }
+        //                            catch (Exception)
+        //                            {
+        //                                throw new Exception();
+        //                            }
+        //                            if (!checkserver)
+        //                            {
+        //                                dgvAccounts["status", rowIndex].Value = "Đăng nhập thất bại";
+        //                                return;
+        //                            }
+
+
+
+        //                            if (chromeDrivers[rowIndex] == null)
+        //                                throw new Exception();
+
+        //                            throw new Exception();
         //                        }
-        //                        Interlocked.Decrement(ref iThread);
+        //                        catch (Exception)
+        //                        {
+        //                            try
+        //                            {
+        //                                Interlocked.Decrement(ref iThread);
+        //                                var data = dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString();
+        //                                if (data != "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
+        //                                {
+        //                                    proUsed.Remove(ran);
+        //                                }
+        //                                else
+        //                                {
+        //                                    dgvAccounts.Rows[rowIndex].Cells["status"].Value = "A - Lỗi mở profile";
+        //                                }
+        //                                chromeDrivers[rowIndex].Manage().Cookies.DeleteAllCookies();
+        //                                chromeDrivers[rowIndex].Quit();
+        //                            }
+        //                            catch (Exception)
+        //                            {
+        //                            }
+        //                            return;
+        //                        }
         //                    }).Start();
         //                    i++;
         //                }
@@ -845,7 +664,7 @@ namespace unlock_282
         //    {
         //    }
         //}
-        
+
         private void dgvAccounts_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string columnName = dgvAccounts.Columns[e.ColumnIndex].Name;
@@ -968,6 +787,11 @@ namespace unlock_282
             catch (Exception)
             {
             }
+        }
+
+        private void dgvAccounts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 
