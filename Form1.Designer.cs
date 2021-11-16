@@ -54,6 +54,10 @@ namespace unlock_282
             this.very = new System.Windows.Forms.Button();
             this.nbrluongProxy = new System.Windows.Forms.NumericUpDown();
             this.tbapiproxy = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.linkImg = new System.Windows.Forms.TextBox();
+            this.dungprofile = new System.Windows.Forms.CheckBox();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -186,7 +190,7 @@ namespace unlock_282
             // 
             this.opennow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.opennow.ForeColor = System.Drawing.Color.Blue;
-            this.opennow.Location = new System.Drawing.Point(322, 15);
+            this.opennow.Location = new System.Drawing.Point(521, 15);
             this.opennow.Name = "opennow";
             this.opennow.Size = new System.Drawing.Size(143, 37);
             this.opennow.TabIndex = 7;
@@ -196,7 +200,7 @@ namespace unlock_282
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(487, 15);
+            this.button2.Location = new System.Drawing.Point(845, 368);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(79, 37);
             this.button2.TabIndex = 9;
@@ -224,7 +228,7 @@ namespace unlock_282
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(572, 13);
+            this.button3.Location = new System.Drawing.Point(930, 364);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(83, 41);
             this.button3.TabIndex = 13;
@@ -314,11 +318,55 @@ namespace unlock_282
             this.tbapiproxy.Size = new System.Drawing.Size(165, 301);
             this.tbapiproxy.TabIndex = 19;
             // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.LightGreen;
+            this.button4.ForeColor = System.Drawing.Color.Red;
+            this.button4.Location = new System.Drawing.Point(858, 491);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(130, 37);
+            this.button4.TabIndex = 20;
+            this.button4.Text = "Lưu cấu hình";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // linkImg
+            // 
+            this.linkImg.Location = new System.Drawing.Point(322, 32);
+            this.linkImg.Name = "linkImg";
+            this.linkImg.Size = new System.Drawing.Size(193, 20);
+            this.linkImg.TabIndex = 21;
+            this.linkImg.Text = "f7f51ab4f9556ae39d68a4f1d3eb3869";
+            // 
+            // dungprofile
+            // 
+            this.dungprofile.AutoSize = true;
+            this.dungprofile.Location = new System.Drawing.Point(269, 6);
+            this.dungprofile.Name = "dungprofile";
+            this.dungprofile.Size = new System.Drawing.Size(83, 17);
+            this.dungprofile.TabIndex = 22;
+            this.dungprofile.Text = "Dùng profile";
+            this.dungprofile.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(858, 444);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(130, 23);
+            this.button5.TabIndex = 23;
+            this.button5.Text = "Change Name IMG";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1017, 540);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.dungprofile);
+            this.Controls.Add(this.linkImg);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.tbapiproxy);
             this.Controls.Add(this.nbrluongProxy);
             this.Controls.Add(this.button1);
@@ -376,6 +424,10 @@ namespace unlock_282
         private System.Windows.Forms.Button very;
         private System.Windows.Forms.NumericUpDown nbrluongProxy;
         private System.Windows.Forms.TextBox tbapiproxy;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox linkImg;
+        private System.Windows.Forms.CheckBox dungprofile;
+        private System.Windows.Forms.Button button5;
     }
 }
 

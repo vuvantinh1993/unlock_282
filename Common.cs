@@ -73,11 +73,34 @@ namespace unlock_282
         }
 
 
-        public static string GetOneImage()
+        public static string GetOneImage(string link)
         {
             var currentPath = System.AppDomain.CurrentDomain.BaseDirectory;
-            string[] filePaths = Directory.GetFiles($"{currentPath}image");
+            string[] filePaths = Directory.GetFiles(link);
             return filePaths[new Random().Next(0, filePaths.Count())];
+        }
+
+        public static void ChangeNameImg(string link)
+        {
+            var currentPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            string[] filePaths = Directory.GetFiles(link);
+            foreach (var filePath in filePaths)
+            {
+
+                string path = filePath;
+                string newFileName = Guid.NewGuid().ToString();
+                string file = Path.GetFileNameWithoutExtension(path);
+                string ext = Path.GetExtension(path);
+                string NewPath = path.Replace(file, "tinh123");
+
+                System.IO.File.Move(link + "\\" + file + ext, link + "\\" + newFileName + ext);
+
+                //string path = filePath;
+                //string dir = Path.GetDirectoryName(path);
+                //string ext = Path.GetExtension(path);
+                //path = Path.Combine(dir, newFileName + ext); // @"photo\myFolder\image-resize.jpg"
+            }
+
         }
     }
 }

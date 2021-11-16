@@ -26,6 +26,7 @@ namespace unlock_282
         public bool isDESC = true;
         public bool checkserver = false;
         public List<string> listProxies = new List<string>();
+        public string linkConfig = "config.txt";
 
         public Form1()
         {
@@ -34,6 +35,28 @@ namespace unlock_282
             this.MaximumSize = new System.Drawing.Size(1033, Screen.PrimaryScreen.WorkingArea.Height);
             this.dgvAccounts.DataSource = Common.DocFileTaiKhoan();
             ThemHuongDan();
+            TaoThuMuc();
+            DocFileCauHinh();
+        }
+
+        private void TaoThuMuc()
+        {
+            if (!File.Exists(linkConfig))
+            {
+                var c = File.Create(linkConfig);
+                c.Close();
+                File.WriteAllText(linkConfig, JsonConvert.SerializeObject(new ModelCauHinh() { }));
+            }
+        }
+
+        private void DocFileCauHinh()
+        {
+           var data = File.ReadAllText(linkConfig);
+            var data2 = JsonConvert.DeserializeObject<ModelCauHinh>(data);
+            cbbDichVu.Text = data2.dicvu;
+            tbapiproxy.Text = data2.apikey;
+            linkImg.Text = data2.linkImg;
+            dungprofile.Checked = data2.dungprofile;
         }
 
         private void ThemHuongDan()
@@ -80,7 +103,7 @@ namespace unlock_282
                             while (check)
                             {
                                 var pro = listApiProxy.FirstOrDefault();
-                                if(pro == null)
+                                if (pro == null)
                                 {
                                     Thread.Sleep(2000);
                                 }
@@ -177,7 +200,7 @@ namespace unlock_282
                 var facebook = new FaceBook(dgvAccounts, rowIndex, chromeDrivers[rowIndex]);
                 facebook.DangNhap();
 
-                await facebook.GoCheckPoint282Async();
+                await facebook.GoCheckPoint282Async(linkImg.Text);
 
                 chromeDrivers[rowIndex].Quit();
 
@@ -201,8 +224,6 @@ namespace unlock_282
         {
             ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
             ChromeOptions chromeOptions = new ChromeOptions { };
-
-
             var prox = dgvAccounts["proxy", rowIndex].Value;
             var username = "";
             var pass = "";
@@ -212,22 +233,6 @@ namespace unlock_282
                 if (prox.ToString().Split(':').Count() == 1)
                 {
                     var tmppro = new TMproxy(prox.ToString());
-                    //var str = tmppro.ResetProxy();
-                    //while (str.Contains("Lỗi"))
-                    //{
-                    //    dgvAccounts["status", rowIndex].Value = str;
-                    //    Thread.Sleep(2000);
-                    //    str = tmppro.ResetProxy();
-                    //}
-
-                    //var str2 = tmppro.GetCurrentProxy();
-                    //while (str2.Contains("Lỗi"))
-                    //{
-                    //    dgvAccounts["status", rowIndex].Value = str2;
-                    //    Thread.Sleep(2000);
-                    //    str2 = tmppro.GetCurrentProxy();
-                    //}
-                    //ip = str2;
                 }
                 else
                 {
@@ -290,7 +295,7 @@ namespace unlock_282
                     "--disable-gpu",
                     //"--app=https:/m.facebook.com"
                 });
-               
+
                 if (isUAPhone)
                 {
                     chromeOptions.AddArguments("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Mobile/15E148 Snapchat/10.77.5.59 (like Safari/604.1)");
@@ -362,8 +367,8 @@ namespace unlock_282
                     var noidungs = File.ReadAllLines(choofdlog.FileName);
                     BindingList<ModelAccount> listAccs = (BindingList<ModelAccount>)dgvAccounts.DataSource;
                     if (listAccs == null)
-                    { 
-                        listAccs = new BindingList<ModelAccount>(); 
+                    {
+                        listAccs = new BindingList<ModelAccount>();
                     }
                     listAccs.AllowRemove = true;
                     listAccs.AllowNew = true;
@@ -447,7 +452,7 @@ namespace unlock_282
                 case "GiaiCheckPoint":
                     foreach (DataGridViewRow row in dgvAccounts.SelectedRows)
                     {
-                        var t = new Task(async () => { 
+                        var t = new Task(async () => {
                             await GiaiCheckPointAsync(row.Index);
                         });
                         t.Start();
@@ -517,7 +522,7 @@ namespace unlock_282
             try
             {
                 var cookieFb = "123123123123";
-               var _httpClient = new HttpClient();
+                var _httpClient = new HttpClient();
                 _httpClient.DefaultRequestHeaders.Add("Cookie", cookieFb);
                 var uid = dgvAccounts["uid", rowIndex].Value.ToString();
                 var httpResponse = await _httpClient.GetAsync($"https://graph.facebook.com/{uid}/picture?redirect=false");
@@ -546,7 +551,7 @@ namespace unlock_282
                     liststr.Add($"{dgvAccounts["uid", rowIndex].Value}");
                 }
             }
-            else if(dinhdang == "Copy UID|PASS|2FA|PROXY")
+            else if (dinhdang == "Copy UID|PASS|2FA|PROXY")
             {
                 for (int i = 0; i < listAccs.Count; i++)
                 {
@@ -569,7 +574,7 @@ namespace unlock_282
         private void dgvAccounts_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             var dgvAccs = dgvAccounts;
-            var  rowIndex = e.RowIndex;
+            var rowIndex = e.RowIndex;
             if (dgvAccs["status", rowIndex].Value != null)
             {
                 string text = dgvAccs["status", rowIndex].Value.ToString();
@@ -624,7 +629,7 @@ namespace unlock_282
                                 ran = new Random().Next(0, soluong);
                                 if (!proUsed.Contains(ran))
                                 {
-                                    if(listApiProxy.Count() != 0 && listApiProxy[0] != "")
+                                    if (listApiProxy.Count() != 0 && listApiProxy[0] != "")
                                     {
                                         dgvAccounts["proxy", rowIndex].Value = listApiProxy[new Random().Next(0, listApiProxy.Count())];
                                     }
@@ -648,10 +653,10 @@ namespace unlock_282
                                     }
 
                                     dgvAccounts["status", rowIndex].Value = "Khởi tạo Chrome";
-                                    TaoChrome(rowIndex, ran);
+                                    TaoChrome(rowIndex, ran, !dungprofile.Checked);
 
 
-                                    if(dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString() == "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
+                                    if (dgvAccounts.Rows[rowIndex].Cells["status"].Value.ToString() == "Hãy update chromedrive mới, hoặc trình duyệt cùng profile đang bật tắt nó đi")
                                     {
                                         throw new Exception();
                                     }
@@ -777,7 +782,7 @@ namespace unlock_282
                                     //
                                     facebook.NhapOTP(otp);
                                 GoUpAnh:
-                                    facebook.NhapAnhWWW();
+                                    facebook.NhapAnhWWW(linkImg.Text);
                                     throw new Exception();
                                 }
                                 catch (Exception)
@@ -1005,7 +1010,7 @@ namespace unlock_282
         //                    }
 
         //                }
-                        
+
         //                Task.WaitAll(tasks.Where(x => x != null).ToArray());
         //                tasks = new Task[listAccs.Count()];
         //            }
@@ -1275,7 +1280,7 @@ namespace unlock_282
                                     //
                                     facebook.NhapOTPIOS(otp);
                                 GoUpAnh:
-                                    facebook.NhapAnhWWWIOS();
+                                    facebook.NhapAnhWWWIOS( linkImg.Text);
                                     throw new Exception();
                                 }
                                 catch (Exception)
@@ -1317,7 +1322,7 @@ namespace unlock_282
 
 
 
-        
+
         private void dgvAccounts_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string columnName = dgvAccounts.Columns[e.ColumnIndex].Name;
@@ -1390,7 +1395,7 @@ namespace unlock_282
                                     try
                                     {
                                         dgvAccounts["status", row].Value = "Khởi tạo Chrome";
-                                        TaoChrome(j,0, true);
+                                        TaoChrome(j, 0, true);
                                         var facebook = new FaceBook(dgvAccounts, j, chromeDrivers[j]);
                                         dgvAccounts["status", row].Value = "Đăng Nhập Facebook";
                                         facebook.DangNhap();
@@ -1441,6 +1446,31 @@ namespace unlock_282
             {
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var data = File.ReadAllText(linkConfig);
+            var data2 = JsonConvert.DeserializeObject<ModelCauHinh>(data);
+            data2.dicvu = cbbDichVu.Text;
+            data2.apikey = tbapiproxy.Text;
+            data2.linkImg = linkImg.Text;
+            data2.dungprofile = dungprofile.Checked;
+            File.WriteAllText(linkConfig, JsonConvert.SerializeObject(data2));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Common.ChangeNameImg(linkImg.Text);
+        }
+    }
+
+    public class ModelCauHinh
+    {
+
+        public string dicvu { get; set; }
+        public string apikey { get; set; }
+        public string linkImg { get; set; }
+        public bool dungprofile { get; set; }
     }
 
 }

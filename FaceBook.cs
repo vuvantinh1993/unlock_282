@@ -643,7 +643,7 @@ namespace unlock_282
             dgvAccounts["status", rowIndex].Value = $"Đã nhập xong";
         }
 
-        public void NhapAnhWWW()
+        public void NhapAnhWWW(string link)
         {
             try
             {
@@ -655,7 +655,7 @@ namespace unlock_282
                     d++;
                 }
                 Thread.Sleep(1000);
-                var linkanh = Common.GetOneImage();
+                var linkanh = Common.GetOneImage(link);
                 chromeDriver.FindElement(By.XPath("//input[@accept='image/*,image/heif,image/heic']")).SendKeys(linkanh);
                 Thread.Sleep(1500);
                 chromeDriver.FindElement(By.XPath("//span[text()='Tiếp tục']")).Click();
@@ -691,7 +691,7 @@ namespace unlock_282
             return;
         }
 
-        public void NhapAnhWWWIOS()
+        public void NhapAnhWWWIOS(string link)
         {
             try
             {
@@ -703,7 +703,7 @@ namespace unlock_282
                     d++;
                 }
                 Thread.Sleep(1000);
-                var linkanh = Common.GetOneImage();
+                var linkanh = Common.GetOneImage(link);
                 chromeDriver.FindElement(By.XPath("//input[@accept='image/*']")).SendKeys(linkanh);
                 Thread.Sleep(1500);
                 chromeDriver.FindElement(By.XPath("//button[@value='Tiếp tục']")).Click();
@@ -739,7 +739,7 @@ namespace unlock_282
             chromeDriver.FindElement(By.XPath("//div[text()='Gửi lại mã xác nhận']")).Click();
         }
 
-        public async Task<bool> GoCheckPoint282Async()
+        public async Task<bool> GoCheckPoint282Async(string link)
         {
             // cần check lại có capcha hay ko ở đây
             chromeDriver.Url = "https://www.facebook.com/";
@@ -812,7 +812,7 @@ namespace unlock_282
                 d++;
             }
             Thread.Sleep(1000);
-            var linkanh = Common.GetOneImage();
+            var linkanh = Common.GetOneImage(link);
             chromeDriver.FindElement(By.Id("mobile_image_data")).SendKeys(linkanh);
             Thread.Sleep(500);
             chromeDriver.FindElement(By.Name("action_upload_image")).Click();
