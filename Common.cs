@@ -14,7 +14,7 @@ namespace unlock_282
     {
         public static string link_account = "nick.txt";
         public static string link_image = "";
-
+        public static string linkSdt = "sdt.txt";
         public static void GhiFileTaiKhoan(List<ModelAccount> listAccs)
         {
             File.WriteAllText(link_account, JsonConvert.SerializeObject(listAccs));

@@ -1,1 +1,1 @@
-[{"stt":1,"uid":"100064944231545","pass":"tinhvu123@#$","_2fa":"56HULRERM2SB7NN3XVX7ZBLPRIL2RUZX","proxy":"45.77.170.55:49059:user49059:hY9BOxsS0m","note":"chưa chạy","status":null}]
+[{"stt":1,"uid":"100060867708559","pass":"tinhvu123a@#$mkm","_2fa":"63OYBAO6BQIT2L3IUKFDFPWT7YUUVI4O","proxy":"45.124.84.139:10392:3mgn7:MDZqa","note":"chưa chạy","status":null}]

@@ -58,6 +58,7 @@ namespace unlock_282
             this.linkImg = new System.Windows.Forms.TextBox();
             this.dungprofile = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.tbCookie = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbrLuong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -242,7 +243,8 @@ namespace unlock_282
             this.cbbDichVu.Items.AddRange(new object[] {
             "CTSC",
             "OTPSIM",
-            "CODETEXTNOW"});
+            "CODETEXTNOW",
+            "OTPMMO"});
             this.cbbDichVu.Location = new System.Drawing.Point(127, 32);
             this.cbbDichVu.Name = "cbbDichVu";
             this.cbbDichVu.Size = new System.Drawing.Size(78, 21);
@@ -358,11 +360,20 @@ namespace unlock_282
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // tbCookie
+            // 
+            this.tbCookie.Location = new System.Drawing.Point(358, 6);
+            this.tbCookie.Name = "tbCookie";
+            this.tbCookie.Size = new System.Drawing.Size(157, 20);
+            this.tbCookie.TabIndex = 24;
+            this.tbCookie.Text = "f7f51ab4f9556ae39d68a4f1d3eb3869";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1017, 540);
+            this.Controls.Add(this.tbCookie);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.dungprofile);
             this.Controls.Add(this.linkImg);
@@ -428,6 +439,7 @@ namespace unlock_282
         private System.Windows.Forms.TextBox linkImg;
         private System.Windows.Forms.CheckBox dungprofile;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox tbCookie;
     }
 }
 

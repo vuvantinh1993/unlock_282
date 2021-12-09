@@ -41,7 +41,9 @@
     <Reference Include="Otp.NET, Version=1.2.2.0, Culture=neutral, PublicKeyToken=38a48df817e173a6, processorArchitecture=MSIL">
       <HintPath>packages\Otp.NET.1.2.2\lib\net45\Otp.NET.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2FA.cs" />
+    <Compile Include="Otpmmo.cs" />
     <Compile Include="CodeTextNow.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="FaceBook.cs" />

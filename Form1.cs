@@ -47,6 +47,11 @@ namespace unlock_282
                 c.Close();
                 File.WriteAllText(linkConfig, JsonConvert.SerializeObject(new ModelCauHinh() { }));
             }
+            if (!File.Exists(Common.linkSdt))
+            {
+                var c = File.Create(Common.linkSdt);
+                c.Close();
+            }
         }
 
         private void DocFileCauHinh()
@@ -54,7 +59,7 @@ namespace unlock_282
            var data = File.ReadAllText(linkConfig);
             var data2 = JsonConvert.DeserializeObject<ModelCauHinh>(data);
             cbbDichVu.Text = data2.dicvu;
-            tbapiproxy.Text = data2.apikey;
+            tbkey.Text = data2.apikey;
             linkImg.Text = data2.linkImg;
             dungprofile.Checked = data2.dungprofile;
         }
@@ -63,13 +68,13 @@ namespace unlock_282
         {
             try
             {
-                WebClient client = new WebClient();
-                var htmlData = client.DownloadData($"https://tangtuongtacbysun.com/appshare/123.txt");
-                var text = Encoding.UTF8.GetString(htmlData);
-                if (text.Contains("jsontext"))
-                {
+                //WebClient client = new WebClient();
+                //var htmlData = client.DownloadData($"https://tangtuongtacbysun.com/appshare/123.txt");
+                //var text = Encoding.UTF8.GetString(htmlData);
+                //if (text.Contains("jsontext"))
+                //{
                     checkserver = true;
-                }
+                //}
             }
             catch (Exception)
             {
@@ -714,6 +719,11 @@ namespace unlock_282
                                     else if (type == "CODETEXTNOW")
                                     {
                                         otpsim = (ResolveCaptcha)new CodeTextNow(tbkey.Text);
+                                        issdtVN = false;
+                                    }
+                                    else if (type == "OTPMMO")
+                                    {
+                                        otpsim = (ResolveCaptcha)new Otpmmo(tbkey.Text, tbCookie.Text);
                                         issdtVN = false;
                                     }
 
@@ -1452,7 +1462,7 @@ namespace unlock_282
             var data = File.ReadAllText(linkConfig);
             var data2 = JsonConvert.DeserializeObject<ModelCauHinh>(data);
             data2.dicvu = cbbDichVu.Text;
-            data2.apikey = tbapiproxy.Text;
+            data2.apikey = tbkey.Text;
             data2.linkImg = linkImg.Text;
             data2.dungprofile = dungprofile.Checked;
             File.WriteAllText(linkConfig, JsonConvert.SerializeObject(data2));
